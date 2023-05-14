@@ -20,7 +20,8 @@ class MovieFromApi:
 def get_movie_from_api(movie_id: str) -> MovieFromApi|str:
     url = "https://www.omdbapi.com/?apikey=371a659c&i=" + movie_id
     response = requests.get(url)
-    print(f'!!!!!!!!!!!!!!!!!!  {type(response.status_code)}{response.status_code}')
+    if response.status_code != 200:
+        return "Error in API connection."
     if "Error" in response.json():
         return response.json()["Error"]
     else:
