@@ -11,14 +11,14 @@ License: MIT
 
 1. Install docker stuff
 3. clone the repository
-4. Navigate to the `msdb/` folder
+4. Navigate to the `SEP6-MSDB/msdb/` folder
 4. Build the project: `docker-compose -f local.yml build`
 5. Run the project: `docker-compose -f local.yml up`
 6. Access project: http://0.0.0.0:8000
 
 ## Admin
 
-1. Navigate to the `msdb/` folder
+1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Create a superuser: `docker-compose -f local.yml run --rm django python manage.py createsuperuser`
 3. Enter email and password
 4. When the project is running you can now login on the admin page: http://0.0.0.0:8000/admin/
@@ -31,7 +31,7 @@ License: MIT
 
 ## Changes to django models
 
-1. Navigate to the `msdb/` folder
+1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. First make migrations: `docker-compose -f local.yml run --rm django python manage.py makemigrations`
 3. Update the role of migration files. This is done so that they can be added to the git repository: `sudo chown -R $USER:$USER "path"/SEP6-MSDB/`
 4. Apply the migrations: `docker-compose -f local.yml run --rm django python manage.py migrate`
@@ -39,8 +39,14 @@ License: MIT
 
 ## Access postgres database shell
 
-1. Navigate to the `msdb/` folder
+1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run the following command to open the postgres dbshell: `docker exec -it msdb_local_postgres bash -c 'psql msdb -U $POSTGRES_USER'`
+
+## Running tests
+
+1. Navigate to the `SEP6-MSDB/msdb/` folder
+2. Run tests: `docker-compose -f local.yml run --rm django coverage run -m pytest`
+3. Generate coverage report: `docker-compose -f local.yml run --rm django coverage report`
 
 
 
