@@ -1,4 +1,4 @@
-FROM postgres:14
+FROM postgres:15
 
 COPY ./compose/production/postgres/maintenance /usr/local/bin/maintenance
 COPY movies.sql /docker-entrypoint-initdb.d/
