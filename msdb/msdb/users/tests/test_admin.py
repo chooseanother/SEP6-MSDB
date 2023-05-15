@@ -23,6 +23,7 @@ class TestUserAdmin:
             url,
             data={
                 "email": "new-admin@example.com",
+                "name": "New Admin",
                 "password1": "My_R@ndom-P@ssw0rd",
                 "password2": "My_R@ndom-P@ssw0rd",
             },
