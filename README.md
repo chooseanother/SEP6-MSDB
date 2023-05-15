@@ -7,6 +7,44 @@ Social platform for movies
 
 License: MIT
 
+## First time setup
+
+1. Install docker stuff
+3. clone the repository
+4. Navigate to the `msdb/` folder
+4. Build the project: `docker-compose -f local.yml build`
+5. Run the project: `docker-compose -f local.yml up`
+6. Access project: http://0.0.0.0:8000
+
+## Admin
+
+1. Navigate to the `msdb/` folder
+2. Create a superuser: `docker-compose -f local.yml run --rm django python manage.py createsuperuser`
+3. Enter email and password
+4. When the project is running you can now login on the admin page: http://0.0.0.0:8000/admin/
+
+## Add 3rd party python packages
+1. Add it in req file
+2. Down
+4. Build
+3. Up
+
+## Changes to django models
+
+1. Navigate to the `msdb/` folder
+2. First make migrations: `docker-compose -f local.yml run --rm django python manage.py makemigrations`
+3. Update the role of migration files. This is done so that they can be added to the git repository: `sudo chown -R $USER:$USER "path"/SEP6-MSDB/`
+4. Apply the migrations: `docker-compose -f local.yml run --rm django python manage.py migrate`
+
+
+## Access postgres database shell
+
+1. Navigate to the `msdb/` folder
+2. Run the following command to open the postgres dbshell: `docker exec -it msdb_local_postgres bash -c 'psql msdb -U $POSTGRES_USER'`
+
+
+
+<s>
 ## Settings
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
@@ -52,3 +90,4 @@ The following details how to deploy this application.
 ### Docker
 
 See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+</s>
