@@ -30,6 +30,7 @@ jobs:
       # Consider using pre-commit.ci for open source project
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
+      - name: Run pre-commit.ci checks
         uses: pre-commit-ci/lite-action@v1.0.1
         if: always()
 
