@@ -12,7 +12,7 @@ def movie(request, movie_id):
 
     if isinstance(movie, MovieFromApi):
         context = dict(movie=movie)
-        return render(request, "movies/movies.html", context)
+        return render(request, "movies/movie.html", context)
     else:
         return render(request, "404.html", dict(exception=movie))
 

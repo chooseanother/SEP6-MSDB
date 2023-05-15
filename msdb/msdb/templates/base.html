@@ -15,6 +15,9 @@
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Your stuff: Third-party CSS libraries go here -->
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 
     <!-- This file stores project-specific CSS -->
     {% compress css %}
@@ -28,7 +31,7 @@
       <!-- Bootstrap JS -->
       <script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <!-- Your stuff: Third-party javascript libraries go here -->
-
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <!-- place project specific Javascript in this file -->
       {% compress js %}
       <script defer src="{% static 'js/project.js' %}"></script>
@@ -41,17 +44,17 @@
   <body>
 
     <div class="mb-1">
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
           <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">Movies and Social DB</a>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+          <div class="navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
+                <a class="nav-link" href="{% url 'home' %}">Movies <span class="visually-hidden">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -60,6 +63,11 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
                 </li>
+              {% endif %}
+            </ul>
+          </div>
+            <ul class="navbar-nav ml-auto">
+              {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
@@ -70,17 +78,30 @@
                 {# URL provided by django-allauth/account/urls.py #}
                 <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
               </li>
-              {% endif %}
+                {% endif %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
                 </li>
               {% endif %}
             </ul>
-          </div>
         </div>
       </nav>
+    </div>
 
+    <div class="container ml-auto">
+      <div class="row justify-content-end">
+        <div class="col-xs-4 col-md-3">
+          <form class="form-inline">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-dark" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <div class="container">
@@ -111,5 +132,7 @@
     </script>
     {% endcomment %}
     {% endblock inline_javascript %}
+
+    {% include "footer.html" %}
   </body>
 </html>
