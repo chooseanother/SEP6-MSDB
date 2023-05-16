@@ -256,7 +256,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_ADAPTER = "msdb.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
