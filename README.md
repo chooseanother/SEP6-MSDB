@@ -46,6 +46,7 @@ License: MIT
 
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run tests: `docker-compose -f local.yml run --rm django coverage run -m pytest`
+    - If any errors with missing tables, try to add `--no-migrations` 
 3. Generate coverage report: `docker-compose -f local.yml run --rm django coverage report`
 
 

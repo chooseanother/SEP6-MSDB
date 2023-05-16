@@ -47,7 +47,7 @@ jobs:
         run: cd msdb; docker-compose -f local.yml run --rm django python manage.py migrate
 
       - name: Run Django Tests
-        run: cd msdb; docker-compose -f local.yml run django pytest
+        run: cd msdb; docker-compose -f local.yml run django pytest --no-migrations
 
       - name: Tear down the Stack
         run: cd msdb; docker-compose -f local.yml down
