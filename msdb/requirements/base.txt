@@ -7,6 +7,7 @@ redis==4.5.5  # https://github.com/redis/redis-py
 hiredis==2.2.3  # https://github.com/redis/hiredis-py
 uvicorn[standard]==0.22.0  # https://github.com/encode/uvicorn
 requests==2.30.0
+fontawesomefree==6.4.0
 
 # Django
 # ------------------------------------------------------------------------------

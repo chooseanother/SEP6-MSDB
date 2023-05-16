@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2>Hot stuff</h2>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="container">
+        <div class="row bg-dark text-white py-4">
+          <div class="col-2" style="margin-left: 15%;">
+            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
+          </div>
+          <div class="col-6" style="margin-right: 15%;">
+            <h3>Movie 1 new</h3>
+            <p>Director</p>
+            <p>Actors</p>
+            <p>Genres</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="container">
+        <div class="row bg-dark text-white py-4">
+          <div class="col-2" style="margin-left: 15%;">
+            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
+          </div>
+          <div class="col-6" style="margin-right: 15%;">
+            <h3>Movie 2 new</h3>
+            <p>Director</p>
+            <p>Actors</p>
+            <p>Genres</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="container">
+        <div class="row bg-dark text-white py-4">
+          <div class="col-2" style="margin-left: 15%;">
+            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
+          </div>
+          <div class="col-6" style="margin-right: 15%;">
+            <h3>Movie 3 new</h3>
+            <p>Director</p>
+            <p>Actors</p>
+            <p>Genres</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
+
+<h2 class="mt-5">Top 10</h2>
+<div class="bg-dark text-white d-flex flex-wrap justify-content-center">
+  {% for i in 'kiygfddddl'|make_list %}
+    <div style="width:200px; margin: 1em;">
+      <p class="m-0">The American Pie 2</p>
+      <p class="m-0">year</p>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+<style>
+  a {
+    text-decoration: none !important;
+  }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% block content %}
+<h1>{{ movie.title }}</h1>
+<p>{{ movie.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie.runtime }}</p>
+<div class="container bg-dark text-white p-4">
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="{{movie.poster_link}}" alt="{{movie.title}} poster" width="100%"/>
+    </div>
+    <div class="col-md-5 col-sm-9">
+      <p>Genre:
+        {% for genre in movie.genre %}
+          <a href="#" class="badge bg-light text-dark">{{ genre }}</a>
+        {% endfor %}
+      </p>
+      <p>Director:
+        {% for director in movie.director %}
+          <a href="#" class="badge bg-light text-dark">{{ director }}</a>
+        {% endfor %}
+      </p>
+      <p>Actors:
+        {% for actor in movie.actors %}
+          <a href="#" class="badge bg-light text-dark">{{ actor }}</a>
+        {% endfor %}
+      </p>
+      <p>Released: {{ movie.released }}</p>
+      <p>Plot: {{ movie.plot }}</p>
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <section style="float: right;">
+        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favorites">
+          <i class="fa-solid fa-heart"></i>
+        </a>
+        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to watched">
+          <i class="fa-solid fa-eye"></i>
+        </a>
+        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to watchlist">
+          <i class="fa-solid fa-ticket"></i>
+        </a>
+        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Recommend to a friend">
+          <i class="fa-regular fa-share-from-square"></i>
+        </a>
+      </section>
+    </div>
+  </div>
+</div>
+
+<h2 class="mt-5">Ratings</h2>
+<div class="container bg-dark text-white p-4">
+  <div>
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-solid fa-star"></i>
+    <i class="fa-regular fa-star"></i>
+    <p class="d-inline ps-4">128 ratings</p>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row">
+      {% for i in '0123456789'|make_list %}
+        <div class="col-sm-12 col-md-6">
+          <div class="card text-dark m-3" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#ratingModal">
+            <div class="card-body">
+              <h5 class="card-title">Username</h5>
+              <span class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+              </span>
+              <p class="text-truncate">
+                Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+                beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+                Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!--modal-->
+<div class="modal fade text-dark" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ratingModalLabel">Rating by {{ username }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+        Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
+        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
+        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
+      </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
