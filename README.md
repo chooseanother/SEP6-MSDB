@@ -24,10 +24,13 @@ License: MIT
 4. When the project is running you can now login on the admin page: http://0.0.0.0:8000/admin/
 
 ## Add 3rd party python packages
-1. Add it in req file
-2. Down
-4. Build
-3. Up
+
+1. Add package in the file matching the enviornemnt it is needed it. If needed in all enviornments add it in `SEP6-MSDB/msdb/requirements/base.txt`. For development or production only `local.txt` or `production.txt`
+   - Example `<package_name>==<package_version>`
+2. Navigate to the `SEP6-MSDB/msdb/` folder
+3. Stop all running containers `docker-compose -f local.yml down`
+4. Build the project: `docker-compose -f local.yml build`
+5. Run the project: `docker-compose -f local.yml up`
 
 ## Changes to django models
 
@@ -49,6 +52,18 @@ License: MIT
     - If any errors with missing tables, try to add `--no-migrations` 
 3. Generate coverage report: `docker-compose -f local.yml run --rm django coverage report`
 
+## Deleting database
+
+While doing development you might need to clera the database
+1. Navigate to the `SEP6-MSDB/msdb/` folder
+2. Stop all running containers `docker-compose -f local.yml down`
+3. Remove database volume `docker volume rm msdb_msdb_local_postgres_data`
+4. Build the project: `docker-compose -f local.yml build`
+5. Run the project: `docker-compose -f local.yml up`
+
+## Run python inside docker container
+1. Navigate to the `SEP6-MSDB/msdb/` folder
+2. Run this command: `docker-compose -f local.yml run --rm django python manage.py shell`
 
 
 <s>
