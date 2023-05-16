@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+
 class Movie(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     title = models.CharField(max_length = 255)
