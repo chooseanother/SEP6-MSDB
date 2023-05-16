@@ -16,3 +16,47 @@
 .badge.bg-light.text-dark{
   text-decoration: none !important;
 }
+
+#movie_search_link img{
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  transition: 400ms -webkit-filter linear;
+}
+
+#movie_search_link:hover img{
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+  transition: 400ms -webkit-filter linear;
+}
+
+.search_link{
+  text-decoration: none !important;
+  color: black;
+}
+
+.search_link:hover{
+  color: black;
+}
+
+.search_link h5{
+  display: inline-block;
+  position: relative;
+}
+
+.search_link h5:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom right;
+  transition: transform 0.4s ease-out;
+}
+
+.search_link:hover h5:after{
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}

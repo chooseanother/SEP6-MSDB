@@ -93,9 +93,10 @@
     <div class="container ml-auto">
       <div class="row justify-content-end">
         <div class="col-xs-4 col-md-3">
-          <form class="form-inline">
+          <form class="form-inline" action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="query">
               <div class="input-group-append">
                 <button class="btn btn-dark" type="submit">Search</button>
               </div>
