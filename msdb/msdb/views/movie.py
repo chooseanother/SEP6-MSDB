@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from msdb.models import Movie
 from msdb.utils.movie_api import get_movie_from_api, MovieFromApi
 
 def movie(request, movie_id):
