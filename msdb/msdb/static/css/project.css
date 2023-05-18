@@ -60,3 +60,18 @@
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+
+
+footer {
+  margin-top: 4em;
+}
+
+body{ 
+  min-height: 100vh;
+  display:flex; 
+  flex-direction:column; 
+}
+
+.wrapper{ 
+  flex:1; 
+}
