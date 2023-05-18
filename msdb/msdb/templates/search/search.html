@@ -1,15 +1,20 @@
 {% extends "base.html" %}
+{% load static i18n compress%}
 
 {% block content %}
-<p class="mb-4">Search results for: {{ query }}</p>
+<p class="mb-4">Search results for: {{ search_string }}</p>
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-md-6">
       <h2>Movies</h2>
       {% for movie in movies %}
         <a href="{% url 'movie' movie.id %}" class="search_link movie_search_link">
-          <div style="display: flex; gap: 10px; height: 120px; margin-bottom: 1em;">
-            <img src="https://cdn.shopify.com/s/files/1/1057/4964/products/Harry-Potter-and-the-Sorcerers-Stone-Vintage-Movie-Poster-Original-1-Sheet-27x41_ff4fb36d-1cb1-4c31-b24d-6eca903fcf57_300x@2x.jpg?v=1673038826" alt="Movie poster" style="width: 80px; object-fit: contain;">
+          <div style="display: flex; gap: 10px; height: 160px; margin-bottom: 1em;">
+            {% if movie.poster_url %}
+              <img src="{{ movie.poster_url }}" alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:cover;">
+            {% else %}
+              <img src="{% static 'images/document_missing.png' %}"  alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+            {% endif %}
             <div>
               <h5>{{ movie.title }}</h5>
               <p style="margin-bottom: 3px;">{{ movie.year }}</p>
@@ -24,11 +29,11 @@
     </div>
     <div class="col-sm-6 col-md-3">
       <h2>People</h2>
-      {% for i in '0123456789kkkkk'|make_list %}
+      {% for person in people %}
         <a href="#" class="search_link">
           <div class="mb-4">
-            <h5 style="margin-bottom: 0;">Emma Stone</h5>
-            <p>Actor/Actress</p>
+            <h5 style="margin-bottom: 0;">{{ person.name }}</h5>
+            <p> {% if person.director %}Director {% endif %} {% if person.actor %}Actor/Actress{% endif %}</p>
           </div>
         </a>
       {% empty %}
@@ -41,7 +46,7 @@
         <a href="#" class="search_link">
           <div class="mb-4">
             <h5 style="margin-bottom: 0;">{{ user.name }}</h5>
-            <p>753 reviews</p>
+            <p> {{ user.num_reviews }} reviews</p>
           </div>
         </a>
       {% empty %}
