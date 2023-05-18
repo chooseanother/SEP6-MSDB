@@ -17,13 +17,13 @@
   text-decoration: none !important;
 }
 
-#movie_search_link img{
+.movie_search_link img{
   filter: blur(0px);
   -webkit-filter: blur(0px);
   transition: 400ms -webkit-filter linear;
 }
 
-#movie_search_link:hover img{
+.movie_search_link:hover img{
   filter: blur(1px);
   -webkit-filter: blur(1px);
   transition: 400ms -webkit-filter linear;
@@ -38,12 +38,13 @@
   color: black;
 }
 
-.search_link h5{
+.search_link h5, .search_link h3{
   display: inline-block;
   position: relative;
+  line-height: 1;
 }
 
-.search_link h5:after{
+.search_link h5:after, .search_link h3:after{
   content: '';
   position: absolute;
   width: 100%;
@@ -56,7 +57,11 @@
   transition: transform 0.4s ease-out;
 }
 
-.search_link:hover h5:after{
+.link_on_a_dark_background h3:after{
+  background-color: white;
+}
+
+.search_link:hover h5:after, .search_link:hover h3:after{
   transform: scaleX(1);
   transform-origin: bottom left;
 }

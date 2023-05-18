@@ -7,7 +7,7 @@
     <div class="col-sm-12 col-md-6">
       <h2>Movies</h2>
       {% for movie in movies %}
-        <a href="{% url 'movie' movie.id %}"  id="movie_search_link" class="search_link">
+        <a href="{% url 'movie' movie.id %}" class="search_link movie_search_link">
           <div style="display: flex; gap: 10px; height: 120px; margin-bottom: 1em;">
             <img src="https://cdn.shopify.com/s/files/1/1057/4964/products/Harry-Potter-and-the-Sorcerers-Stone-Vintage-Movie-Poster-Original-1-Sheet-27x41_ff4fb36d-1cb1-4c31-b24d-6eca903fcf57_300x@2x.jpg?v=1673038826" alt="Movie poster" style="width: 80px; object-fit: contain;">
             <div>
@@ -50,6 +50,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock content %}

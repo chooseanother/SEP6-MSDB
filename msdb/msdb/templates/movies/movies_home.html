@@ -2,60 +2,69 @@
 
 {% block content %}
 
-
-<h2>Hot stuff</h2>
+<!--carousel with hot stuff-->
+<h2>Hot stuff in {{ current_year }}</h2>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    {% for movie in hot_stuff %}
+      {% if forloop.first %}
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      {% else %}
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+      {% endif %}
+    {% endfor %}
   </div>
   <div class="carousel-inner">
-    <div class="carousel-item active">
+    {% for movie in hot_stuff %}
+      {% if forloop.first %}
+        <div class="carousel-item active">
+      {% else %}
+        <div class="carousel-item">
+      {% endif %}
       <div class="container">
-        <div class="row bg-dark text-white py-4">
-          <div class="col-2" style="margin-left: 15%;">
-            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
+        <a href="{% url 'movie' movie.id %}" class="movie_search_link search_link link_on_a_dark_background">
+          <div class="row bg-dark text-white py-4">
+            <div class="col-2" style="margin-left: 15%;">
+              <img class="d-block" src="{{ movie.poster_url }}" alt="{{ movie.title }} poster" style="width: 100%; height: 300px; object-fit: contain">
+            </div>
+            <div class="col-6 d-flex align-items-center" style="margin-right: 15%;">
+              <div class="d-block">
+                <h3>{{ movie.title }}</h3>
+                <p>{{ movie.year }}</p>
+                <p>
+                  {% for genre in movie.genre %}
+                  {% if forloop.last %}
+                      <span>{{ genre }}</span>
+                    {% else %}
+                      <span>{{ genre }}, </span>
+                    {% endif %}
+                  {% endfor %}
+                </p>
+                <p>
+                  {% for director in movie.director %}
+                    {% if forloop.last %}
+                      <span>{{ director }}</span>
+                    {% else %}
+                      <span>{{ director }}, </span>
+                    {% endif %}
+                  {% endfor %}
+                </p>
+                <p>
+                  {% for actor in movie.actors %}
+                  {% if forloop.last %}
+                      <span>{{ actor }}</span>
+                    {% else %}
+                      <span>{{ actor }}, </span>
+                    {% endif %}
+                  {% endfor %}
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="col-6" style="margin-right: 15%;">
-            <h3>Movie 1 new</h3>
-            <p>Director</p>
-            <p>Actors</p>
-            <p>Genres</p>
-          </div>
-        </div>
+        </a>
       </div>
     </div>
-    <div class="carousel-item">
-      <div class="container">
-        <div class="row bg-dark text-white py-4">
-          <div class="col-2" style="margin-left: 15%;">
-            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
-          </div>
-          <div class="col-6" style="margin-right: 15%;">
-            <h3>Movie 2 new</h3>
-            <p>Director</p>
-            <p>Actors</p>
-            <p>Genres</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="container">
-        <div class="row bg-dark text-white py-4">
-          <div class="col-2" style="margin-left: 15%;">
-            <img class="d-block w-100" src="https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg" alt="First slide">
-          </div>
-          <div class="col-6" style="margin-right: 15%;">
-            <h3>Movie 3 new</h3>
-            <p>Director</p>
-            <p>Actors</p>
-            <p>Genres</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -65,14 +74,53 @@
   </button>
 </div>
 
+<!--top 10 overview-->
 <h2 class="mt-5">Top 10</h2>
-<div class="bg-dark text-white d-flex flex-wrap justify-content-center">
-  {% for i in 'kiygfddddl'|make_list %}
-    <div style="width:200px; margin: 1em;">
-      <p class="m-0">The American Pie 2</p>
-      <p class="m-0">year</p>
+<div class="bg-dark justify-content-center p-4">
+  <div class="container">
+    <div class="row">
+    {% for movie in top_10 %}
+      <div class="col-sm-12 col-lg-6 py-2">
+        <a href="{% url 'movie' movie.id %}" class="movie_search_link search_link link_on_a_dark_background">
+          <div class="d-flex align-items-center">
+            <img src="{{ movie.poster_url }}" alt="{{ movie.title}} poster" style="height: 300px; width: 200px; object-fit: contain"/>
+            <div class="d-block ms-3 text-white">
+              <h3 class="m-0">{{ movie.title }}</h3>
+              <h4 class="m-1"><i class="fa-solid fa-star text-warning"></i> 4.36</h4>
+              <p class="m-1">{{ movie.year }}</p>
+              <p class="m-1">
+                {% for genre in movie.genre %}
+                  {% if forloop.last %}
+                    <span>{{ genre }}</span>
+                  {% else %}
+                    <span>{{ genre }}, </span>
+                  {% endif %}
+                {% endfor %}
+              </p>
+              <p class="m-1">
+                {% for director in movie.director %}
+                  {% if forloop.last %}
+                    <span>{{ director }}</span>
+                  {% else %}
+                    <span>{{ director }}, </span>
+                  {% endif %}
+                {% endfor %}
+              </p>
+              <p class="m-1">
+                {% for actor in movie.actors %}
+                  {% if forloop.last %}
+                    <span>{{ actor }}</span>
+                  {% else %}
+                    <span>{{ actor }}, </span>
+                  {% endif %}
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
     </div>
-  {% endfor %}
+  </div>
 </div>
-
 {% endblock content %}
