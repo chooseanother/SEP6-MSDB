@@ -33,7 +33,7 @@
         <a href="#" class="search_link">
           <div class="mb-4">
             <h5 style="margin-bottom: 0;">{{ person.name }}</h5>
-            <p> {% if person.director %}Director {% endif %} {% if person.actor %}Actor/Actress{% endif %}</p>
+            <p>{% if person.director %}Director{% endif %}{% if person.director and person.actor%}, {% endif %}{% if person.actor %}Actor/Actress{% endif %}</p>
           </div>
         </a>
       {% empty %}
