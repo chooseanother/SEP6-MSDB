@@ -68,7 +68,6 @@ While doing development you might need to clera the database
 
 
 ## If new static files are added
-this might be wrong
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run this command: `docker-compose -f local.yml run --rm django python manage.py collectstatic`
 
