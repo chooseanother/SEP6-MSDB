@@ -43,7 +43,6 @@
   </head>
 
   <body>
-
     <div class="mb-1">
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
@@ -106,7 +105,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container wrapper">
 
       {% if messages %}
         {% for message in messages %}
@@ -122,9 +121,10 @@
       {% endblock content %}
 
     </div> <!-- /container -->
-
     {% block modal %}{% endblock modal %}
-
+    
+    {% include "footer.html" %}
+    
     {% block inline_javascript %}
     {% comment %}
     Script tags with only code, no src (defer by default). To run
@@ -134,7 +134,5 @@
     </script>
     {% endcomment %}
     {% endblock inline_javascript %}
-
-    {% include "footer.html" %}
   </body>
 </html>
