@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ person }}</h1>
+<p>Active years: </p>
+<p>Average movie rating: </p>
+<
+
+<p>Director:</p>
+{% for movie in movies_director %}
+  <h3> {{ movie.title }}</h3>
+{% endfor %}
+
+<p>Actor/Actress:</p>
+{% for movie in movies_actor %}
+  <h3> {{ movie.title }}</h3>
+{% endfor %}
+
+{% endblock content %}

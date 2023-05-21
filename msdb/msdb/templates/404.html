@@ -5,6 +5,16 @@
 {% block content %}
 <h1>Page not found</h1>
 
-<p>{% if exception %}{{ exception }}{% elif movie_id %}Movie with id <b>{{movie_id}}</b> not found. {% else %}This is not the page you were looking for.{% endif %}</p>
+<p>
+  {% if exception %}
+    {{ exception }}
+  {% elif movie_id %}
+    Movie with id <b>{{movie_id}}</b> not found.
+  {% elif person_name %}
+    Person with name <b>{{ person_name }}</b> not found.
+  {% else %}
+    This is not the page you were looking for.
+  {% endif %}
+</p>
 
 {% endblock content %}
