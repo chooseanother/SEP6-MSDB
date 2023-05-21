@@ -8,12 +8,13 @@ from django.views.generic import TemplateView
 import msdb.views.home
 import msdb.views.movie
 import msdb.views.search
+import msdb.views.person
 
 urlpatterns = [
     path("", msdb.views.home.home, name="home"),
     path("search/", msdb.views.search.search, name="search"),
     path("movie/<str:movie_id>", msdb.views.movie.movie, name="movie"),
-    path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
+    path("person/<str:person_name>", msdb.views.person.person, name="person"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
