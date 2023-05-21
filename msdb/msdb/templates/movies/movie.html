@@ -11,31 +11,31 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 {% block content %}
-<h1>{{ movie.title }}</h1>
-<p>{{ movie.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie.runtime }}</p>
+<h1>{{ movie_datab.title }}</h1>
+<p>{{ movie_datab.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie_api.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie_api.runtime }}</p>
 <div class="container bg-dark text-white p-4">
   <div class="row">
     <div class="col-sm-3">
-      <img src="{{movie.poster_link}}" alt="{{movie.title}} poster" width="100%"/>
+      <img src="{{movie_datab.poster_url}}" alt="{{movie_datab.title}} poster" width="100%"/>
     </div>
     <div class="col-md-5 col-sm-9">
       <p>Genre:
-        {% for genre in movie.genre %}
+        {% for genre in movie_datab.genre %}
           <a href="#" class="badge bg-light text-dark">{{ genre }}</a>
         {% endfor %}
       </p>
       <p>Director:
-        {% for director in movie.director %}
+        {% for director in movie_datab.director %}
           <a href="#" class="badge bg-light text-dark">{{ director }}</a>
         {% endfor %}
       </p>
       <p>Actors:
-        {% for actor in movie.actors %}
+        {% for actor in movie_datab.actors %}
           <a href="#" class="badge bg-light text-dark">{{ actor }}</a>
         {% endfor %}
       </p>
-      <p>Released: {{ movie.released }}</p>
-      <p>Plot: {{ movie.plot }}</p>
+      <p>Released: {{ movie_api.released }}</p>
+      <p>{{ movie_api.plot }}</p>
     </div>
     <div class="col-md-4 col-sm-12">
       <section style="float: right;">
