@@ -3,18 +3,14 @@
 {% block content %}
 
 <h1>{{ person }}</h1>
-<p>Active years: </p>
-<p>Average movie rating: </p>
-<
+<p style="margin-bottom: 0;">Most active years: {{ first_year }} - {{ last_year }}</p>
 
-<p>Director:</p>
-{% for movie in movies_director %}
-  <h3> {{ movie.title }}</h3>
-{% endfor %}
+{% if movies_director1 %}
+  {% include 'movie_list_collapsable.html' with title='Known for as director' list1=movies_director1 list2=movies_director2 collapse_id='collapse_director'%}
+{% endif %}
 
-<p>Actor/Actress:</p>
-{% for movie in movies_actor %}
-  <h3> {{ movie.title }}</h3>
-{% endfor %}
+{% if movies_actor1 %}
+  {% include 'movie_list_collapsable.html' with title='Known for as actor/actress' list1=movies_actor1 list2=movies_actor2 collapse_id='collapse_actor'%}
+{% endif %}
 
 {% endblock content %}
