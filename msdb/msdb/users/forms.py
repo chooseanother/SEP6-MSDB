@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.forms import EmailField, CharField, TextInput, ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from msdb.models.list import List
+
 User = get_user_model()
 
 
@@ -53,7 +55,7 @@ class UserSignupForm(SignupForm):
         "password1",
         "password2",
     ]
-    
+
     def save(self, request):
         """
         Saves the user to the database.
@@ -61,15 +63,19 @@ class UserSignupForm(SignupForm):
         user = super(UserSignupForm, self).save(request)
         user.name = self.cleaned_data.get("name")
         user.save()
+        #create all three lists for that user
+        List(user=user, list_type=List.ListChoices.FAVORITES).save()
+        List(user=user, list_type=List.ListChoices.WATCHED).save()
+        List(user=user, list_type=List.ListChoices.WATCHLIST).save()
         return user
-    
+
     def clean_name(self):
         name = self.cleaned_data["name"].strip()
         if User.objects.filter(name=name).exists():
             raise ValidationError(_("This name has already been taken."))
 
         return name
-    
+
 
 
 class UserSocialSignupForm(SocialSignupForm):
