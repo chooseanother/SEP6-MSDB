@@ -18,7 +18,15 @@
             <div>
               <h5>{{ movie.title }}</h5>
               <p style="margin-bottom: 3px;">{{ movie.year }}</p>
-              <p>Director</p>
+              <p>
+                  {% for director in movie.director %}
+                    {% if forloop.last %}
+                      <span>{{ director }}</span>
+                    {% else %}
+                      <span>{{ director }}, </span>
+                    {% endif %}
+                  {% endfor %}
+                </p>
             </div>
 
           </div>
