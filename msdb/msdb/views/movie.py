@@ -17,7 +17,7 @@ def movie(request, movie_id):
         movie_api = get_movie_from_api(movie_id)
     except Exception:
         pass
-
+    
     user = None
     is_favorites = None
     is_watched = None
@@ -34,4 +34,19 @@ def movie(request, movie_id):
 
     context = dict(movie_api=movie_api, movie_datab=movie_datab, user=user,
                    is_favorites=is_favorites, is_watched=is_watched, is_watchlist=is_watchlist)
+    
+    if request.user.is_authenticated:
+        user = request.user
+        context["user"] = user
+        # check if user has reviewed this movie
+        try:
+            review = movie_datab.reviews.get(user=user)
+        except Exception:
+            review = None
+        context["review"] = review
+
+    # get all reviews for a movie and exclude the logged in users review if it exists
+    reviews = movie_datab.reviews.exclude(user=user) if request.user.is_authenticated else movie_datab.reviews.all()
+    context["reviews"] = reviews
+
     return render(request, "movies/movie.html", context)

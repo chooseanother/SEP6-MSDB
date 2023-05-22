@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static i18n compress%}
 
 <style>
   a {
@@ -16,7 +17,11 @@
 <div class="container bg-dark text-white p-4">
   <div class="row">
     <div class="col-sm-3">
-      <img src="{{movie_datab.poster_url}}" alt="{{movie_datab.title}} poster" width="100%"/>
+      {% if movie_datab.poster_url %}
+        <img src="{{ movie_datab.poster_url }}" alt="{{movie_datab.title}} poster" width="100%">
+      {% else %}
+        <img src="{% static 'images/document_missing.png' %}"  alt="{{movie_datab.title}} poster" width="100%">
+      {% endif %}
     </div>
     <div class="col-md-5 col-sm-9">
       <p>Genre:
@@ -58,16 +63,25 @@
 
 <h2 class="mt-5">Ratings</h2>
 <div class="container bg-dark text-white p-4">
-  <div>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-regular fa-star"></i>
-    <p class="d-inline ps-4">128 ratings - {{ movie.rating }}</p>
+  <div class="d-flex justify-content-between">
+    <div>
+      <p class="d-inline ps-4"> {% if movie_datab.rating %}MSDB rating: {{ movie_datab.rating }} - Based on {{ movie_datab.review_count }} rating {% if movie_datab.review_count > 1 %}s{%endif%} {% else %}Not yet rated by MSDB users{% endif %}</p>
+    </div>
+    <div class="pe-4">
+      {% if user and not review%}
+        <button class="add-review btn btn-outline-light">Add review</button>
+      {% endif %}
+      {% if user and review %}
+      <button class="edit-review btn btn-outline-light">Edit review</button>
+      {% endif %}
+    </div>
   </div>
-  {% include "rating/rating.html" with reviews=movie.reviews%}
+  {% include "review/reviews.html" with reviews=reviews review=review%}
 </div>
+
+{% if user and not review%}
+  {% include 'review/add_review.html' with form=form%}
+{% endif %}
 
 <div id="snackbar">Message</div>
 <div id="snackbar_error">Message</div>
