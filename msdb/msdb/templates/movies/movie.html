@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static i18n compress%}
 
 <style>
   a {
@@ -6,17 +7,17 @@
   }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 {% block content %}
 <h1>{{ movie_datab.title }}</h1>
 <p>{{ movie_datab.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie_api.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie_api.runtime }}</p>
 <div class="container bg-dark text-white p-4">
   <div class="row">
     <div class="col-sm-3">
-      <img src="{{movie_datab.poster_url}}" alt="{{movie_datab.title}} poster" width="100%"/>
+      {% if movie_datab.poster_url %}
+        <img src="{{ movie_datab.poster_url }}" alt="{{movie_datab.title}} poster" width="100%">
+      {% else %}
+        <img src="{% static 'images/document_missing.png' %}"  alt="{{movie_datab.title}} poster" width="100%">
+      {% endif %}
     </div>
     <div class="col-md-5 col-sm-9">
       <p>Genre:
@@ -58,69 +59,37 @@
 
 <h2 class="mt-5">Ratings</h2>
 <div class="container bg-dark text-white p-4">
-  <div>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-solid fa-star"></i>
-    <i class="fa-regular fa-star"></i>
-    <p class="d-inline ps-4">128 ratings</p>
-  </div>
-
-  <div class="container mt-4">
-    <div class="row">
-      {% for i in '0123456789'|make_list %}
-        <div class="col-sm-12 col-md-6">
-          <div class="card text-dark m-3" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#ratingModal">
-            <div class="card-body">
-              <h5 class="card-title">Username</h5>
-              <span class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              </span>
-              <p class="text-truncate">
-                Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-                beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-                Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
-              </p>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
+  <div class="d-flex justify-content-between">
+    <div>
+      <p class="d-inline ps-4" data-bs-toggle="tooltip" data-bs-placement="top" title="MSDB rating"> 
+        {% if movie_datab.rating %}
+          <span style="font-size: 2em;"> 
+            <i class="fa-solid text-warning fa-star"></i> 
+            {{ movie_datab.rating|floatformat }} 
+          </span>
+          Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%} 
+          {% else %}Not yet rated by MSDB users{% endif %}
+      </p>
     </div>
+    {% if user %}
+      <div class="pe-4">
+        {% if user and not review%}
+          <button id="add-review" class="btn btn-outline-light">Add review</button>
+        {% endif %}
+        {% if user and review %}
+        <button id="edit-review" class="btn btn-outline-light">Edit review</button>
+        {% endif %}
+      </div>
+    {% else %}
+      <a href="{% url 'account_login' %}"class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In to be able to add reviews">Add review</a>
+    {% endif %}
   </div>
+  {% include "review/reviews.html" with reviews=reviews review=review%}
 </div>
 
-<!--modal-->
-<div class="modal fade text-dark" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ratingModalLabel">Rating by {{ username }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-        Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-        beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-        Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
-      </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
   </div>
 </div>
 
@@ -220,5 +189,22 @@
       }
     })
   });
+  const user = "{{user}}"
+  const review = "{{review}}"
+
+  if (user != "None" && review == "None") {
+    document.addEventListener('DOMContentLoaded', (e) => {
+      modalForm(document.getElementById('add-review'), {
+        formURL: "{% url 'add_review' movie_datab.id %}"
+      })
+    });
+  }
+  if (user && review) {
+    document.addEventListener('DOMContentLoaded', (e) => {
+      modalForm(document.getElementById('edit-review'), {
+        formURL: "{% url 'edit_review' movie_datab.id %}"
+      })
+    });
+  }
 </script>
 {% endblock inline_javascript %}
