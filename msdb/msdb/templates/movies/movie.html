@@ -62,7 +62,15 @@
 <div class="container bg-dark text-white p-4">
   <div class="d-flex justify-content-between">
     <div>
-      <p class="d-inline ps-4"> {% if movie_datab.rating %}MSDB rating: {{ movie_datab.rating|floatformat }} - Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%} {% else %}Not yet rated by MSDB users{% endif %}</p>
+      <p class="d-inline ps-4" data-bs-toggle="tooltip" data-bs-placement="top" title="MSDB rating"> 
+        {% if movie_datab.rating %}
+          <span style="font-size: 2em;"> 
+            <i class="fa-solid text-warning fa-star"></i> 
+            {{ movie_datab.rating|floatformat }} 
+          </span>
+          Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%} 
+          {% else %}Not yet rated by MSDB users{% endif %}
+      </p>
     </div>
     {% if user %}
       <div class="pe-4">

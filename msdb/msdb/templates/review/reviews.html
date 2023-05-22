@@ -2,9 +2,9 @@
     <div class="row">
       {% if review %}
       <div class="col-sm-12 col-md-6">
-          <div class="card text-dark m-3" style="cursor: pointer;background-color:#ffffff;" id="edit-review-review">
+          <div class="card text-dark m-3" style="cursor: pointer; background-color: #D0E6DD;" id="edit-review-review">
             <div class="card-body">
-              <h5 class="card-title">{{review.user.name}}</h5>
+              <h5 class="card-title">Your review</h5>
               {% include 'review/rating.html' with rating=review.rating%}
               <p class="text-truncate">
                 {{ review.text }}
@@ -18,7 +18,7 @@
         <div class="col-sm-12 col-md-6">
           <div class="card text-dark m-3" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#ratingModal">
             <div class="card-body">
-              <h5 class="card-title">{{review.user.name}}</h5>
+              <h5 class="card-title">Review by: {{review.user.name}}</h5>
               {% include 'review/rating.html' with rating=review.rating%}
               <p class="text-truncate">
                 {{ review.text }}
