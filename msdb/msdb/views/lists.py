@@ -27,5 +27,5 @@ def toggle_list(request):
 
         # todo: when adding to watchlist/watched, remove it from the other one if it is there (exclusive lists)
 
-
     return JsonResponse({}, status=400)
+

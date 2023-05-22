@@ -125,6 +125,7 @@
 </div>
 
 <div id="snackbar">Message</div>
+<div id="snackbar_error">Message</div>
 
 {% endblock content %}
 
@@ -202,6 +203,10 @@
       },
       error: function (response) {
         console.log("error")
+        var snackbar = document.getElementById("snackbar_error");
+        snackbar.innerHTML = "Unable to add to/remove from the list. ";
+        snackbar.className = "show";
+        setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
       }
     })
   });
