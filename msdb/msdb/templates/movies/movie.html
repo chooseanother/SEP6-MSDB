@@ -26,12 +26,12 @@
       </p>
       <p>Director:
         {% for director in movie_datab.director %}
-          <a href="#" class="badge bg-light text-dark">{{ director }}</a>
+          <a href="{% url 'person' director %}" class="badge bg-light text-dark">{{ director }}</a>
         {% endfor %}
       </p>
       <p>Actors:
         {% for actor in movie_datab.actors %}
-          <a href="#" class="badge bg-light text-dark">{{ actor }}</a>
+          <a href="{% url 'person' actor %}" class="badge bg-light text-dark">{{ actor }}</a>
         {% endfor %}
       </p>
       <p>Released: {{ movie_api.released }}</p>

@@ -17,6 +17,7 @@
   text-decoration: none !important;
 }
 
+/*MOVIE LIST (UNDERLINE TITLE, BLUR IMAGE)*/
 .movie_search_link img{
   filter: blur(0px);
   -webkit-filter: blur(0px);
@@ -57,7 +58,7 @@
   transition: transform 0.4s ease-out;
 }
 
-.link_on_a_dark_background h3:after{
+.link_on_a_dark_background h3:after, .link_on_a_dark_background h5:after{
   background-color: white;
 }
 
@@ -66,17 +67,17 @@
   transform-origin: bottom left;
 }
 
-
+/*OTHERS*/
 footer {
   margin-top: 4em;
 }
 
-body{ 
+body{
   min-height: 100vh;
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
 }
 
-.wrapper{ 
-  flex: 1; 
+.wrapper{
+  flex: 1;
 }

@@ -1,0 +1,53 @@
+{% load static i18n compress%}
+
+<h2 class="mt-5">{{ title }} ({{ list1.count|add:list2.count }})</h2>
+<div class="bg-dark text-white p-4" style="margin: auto;">
+  <div class="w-100 container">
+    <div class="row">
+      {% for movie in list1 %}
+        <div class="p-2 d-block col-sm-6 col-md-4 col-lg-2" style="width: 200px; text-align: center;" >
+          <a href="{% url 'movie' movie.id %}" class="movie_search_link search_link link_on_a_dark_background">
+            {% if movie.poster_url %}
+              <img src="{{ movie.poster_url }}" alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+            {% else %}
+              <img src="{% static 'images/document_missing.png' %}"  alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+            {% endif %}
+            <div class="text-white mt-1">
+              <h5 class="mb-0"> {{ movie.title }}</h5>
+              <p>{{ movie.year }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="collapse" id="{{ collapse_id }}">
+    <div class="w-100 container align-items-center">
+      <div class="row">
+        {% for movie in list2 %}
+          <div class="p-2 d-block col-sm-6 col-md-4 col-lg-2" style="width: 200px; text-align: center;" >
+          <a href="{% url 'movie' movie.id %}" class="movie_search_link search_link link_on_a_dark_background">
+            {% if movie.poster_url %}
+              <img src="{{ movie.poster_url }}" alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+            {% else %}
+              <img src="{% static 'images/document_missing.png' %}"  alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+            {% endif %}
+            <div class="text-white mt-1">
+              <h5 class="mb-0"> {{ movie.title }}</h5>
+              <p>{{ movie.year }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% if list2 %}
+    <div style="text-align: center;">
+      <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}" type="button" aria-expanded="false" aria-controls="{{ collapse_id }}">
+        Expand/collapse
+      </button>
+    </div>
+  {% endif %}
+</div>

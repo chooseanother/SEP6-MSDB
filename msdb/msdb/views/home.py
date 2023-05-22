@@ -1,6 +1,5 @@
 from django.shortcuts import render
 import datetime
-import random
 
 from msdb.models import Movie
 

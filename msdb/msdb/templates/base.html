@@ -56,9 +56,6 @@
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Movies <span class="visually-hidden">(current)</span></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'about' %}">About</a>
-              </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
@@ -122,9 +119,9 @@
 
     </div> <!-- /container -->
     {% block modal %}{% endblock modal %}
-    
+
     {% include "footer.html" %}
-    
+
     {% block inline_javascript %}
     {% comment %}
     Script tags with only code, no src (defer by default). To run

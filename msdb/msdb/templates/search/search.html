@@ -30,7 +30,7 @@
     <div class="col-sm-6 col-md-3">
       <h2>People</h2>
       {% for person in people %}
-        <a href="#" class="search_link">
+        <a href="{% url 'person' person.name %}" class="search_link">
           <div class="mb-4">
             <h5 style="margin-bottom: 0;">{{ person.name }}</h5>
             <p>{% if person.director %}Director{% endif %}{% if person.director and person.actor%}, {% endif %}{% if person.actor %}Actor/Actress{% endif %}</p>
