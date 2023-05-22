@@ -1,7 +1,7 @@
 from django.shortcuts import render
-
 from msdb.utils.movie_api import get_movie_from_api, MovieFromApi
 from msdb.models import Movie
+from msdb.models import List
 
 def movie(request, movie_id):
     #if movie id does not exist in our database, throw 404
@@ -18,9 +18,20 @@ def movie(request, movie_id):
     except Exception:
         pass
 
-    context = dict(movie_api=movie_api, movie_datab=movie_datab)
+    user = None
+    is_favorites = None
+    is_watched = None
+    is_watchlist = None
+
+    if request.user.is_authenticated:
+        user = request.user
+        favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)
+        is_favorites = movie_datab in favorites.movies.all()
+        watched = user.lists.get(list_type=List.ListChoices.WATCHED)
+        is_watched = movie_datab in watched.movies.all()
+        watchlist = user.lists.get(list_type=List.ListChoices.WATCHLIST)
+        is_watchlist = movie_datab in watchlist.movies.all()
+
+    context = dict(movie_api=movie_api, movie_datab=movie_datab, user=user,
+                   is_favorites=is_favorites, is_watched=is_watched, is_watchlist=is_watchlist)
     return render(request, "movies/movie.html", context)
-
-
-
-
