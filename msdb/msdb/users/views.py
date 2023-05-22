@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render
 
+from msdb.models import List
+
 User = get_user_model()
 
 def user_detail_view(request, pk):
@@ -15,7 +17,23 @@ def user_detail_view(request, pk):
     reviews1 = user.reviews.all()[:6]
     reviews2 = user.reviews.all()[6:]
 
-    context = dict(me=request.user, user=user, reviews1=reviews1, reviews2=reviews2)
+    favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)
+    favorites1 = favorites.movies.all()[:6]
+    favorites2 = favorites.movies.all()[6:]
+
+    watchlist = user.lists.get(list_type=List.ListChoices.WATCHLIST)
+    watchlist1 = watchlist.movies.all()[:6]
+    watchlist2 = watchlist.movies.all()[6:]
+
+    watched = user.lists.get(list_type=List.ListChoices.WATCHED)
+    watched1 = watched.movies.all()[:6]
+    watched2 = watched.movies.all()[6:]
+
+    context = dict(me=request.user, user=user,
+                   reviews1=reviews1, reviews2=reviews2,
+                   favorites1=favorites1, favorites2=favorites2,
+                   watchlist1=watchlist1, watchlist2=watchlist2,
+                   watched1=watched1, watched2=watched2)
 
     return render(request, "users/user_detail.html", context)
 

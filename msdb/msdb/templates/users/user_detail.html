@@ -18,4 +18,18 @@
 {% include 'movie_list_collapsable.html' with title='Reviews' list1=reviews1 list2=reviews2 collapse_id='collapse_reviews'%}
 {% endif %}
 
+{% if favorites1 %}
+{% include 'movie_list_collapsable.html' with title='Favorites' list1=favorites1 list2=favorites2 collapse_id='collapse_favorites'%}
+{% endif %}
+
+{% if watchlist1 %}
+{% include 'movie_list_collapsable.html' with title='Watchlist' list1=watchlist1 list2=watchlist2 collapse_id='collapse_watchlist'%}
+{% endif %}
+
+{% if watched1 %}
+{% include 'movie_list_collapsable.html' with title='Watched' list1=watched1 list2=watched1 collapse_id='collapse_watched'%}
+{% endif %}
+
+
+
 {% endblock content %}
