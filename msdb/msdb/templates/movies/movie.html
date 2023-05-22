@@ -176,30 +176,40 @@
         // action is either "add" or "remove"
         const response_action = response.action
         if(response_action === "add"){
+          /*by all of them, update tooltip and change color to green*/
+          /*by watchlist/watched - changing the other one to neutral color and changing the tooltip*/
           switch(list_type){
             case 'FA':
               target.attr('title', 'Remove from favorites');
               break;
             case 'LI':
+              target.attr('title', 'Remove from watchlist');
+              $("#WA").children().first().css("color","");
+              $("#WA").attr('title', 'Add to watched');
               break;
             case 'WA':
-
+              target.attr('title', 'Remove from watched');
+              $("#LI").children().first().css("color","");
+              $("#LI").attr('title', 'Add to watchlist');
+              break;
           }
           target.children().first().css("color","#208454");
         }
         else if(response_action === "remove"){
+          /*by all, update the color back to normal and update tooltip*/
           switch(list_type){
             case 'FA':
               target.attr('title', 'Add to favorites');
               break;
             case 'LI':
+              target.attr('title', 'Add to watchlist');
               break;
             case 'WA':
-
+              target.attr('title', 'Add to watched');
+              break;
           }
           target.children().first().css("color","");
         }
-
       },
       error: function (response) {
         console.log("error")
