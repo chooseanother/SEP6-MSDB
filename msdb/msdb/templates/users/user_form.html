@@ -4,13 +4,14 @@
 {% block title %}{{ user.name }}{% endblock %}
 
 {% block content %}
-  <h1>{{ user.name }}</h1>
+  <h2>{{ user.name }}</h2>
+  <p>Username is public to all the users and used to look up accounts. It must be unique. </p>
   <form class="form-horizontal" method="post" action="{% url 'users:update' %}">
     {% csrf_token %}
     {{ form|crispy }}
     <div class="control-group">
       <div class="controls">
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-dark">Update</button>
       </div>
     </div>
   </form>
