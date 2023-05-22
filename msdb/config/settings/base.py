@@ -69,7 +69,8 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "fontawesomefree"
+    "fontawesomefree",
+    "bootstrap_modal_forms",
 ]
 
 LOCAL_APPS = [

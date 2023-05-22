@@ -7,10 +7,6 @@
   }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 {% block content %}
 <h1>{{ movie_datab.title }}</h1>
 <p>{{ movie_datab.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie_api.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie_api.runtime }}</p>
@@ -65,32 +61,50 @@
 <div class="container bg-dark text-white p-4">
   <div class="d-flex justify-content-between">
     <div>
-      <p class="d-inline ps-4"> {% if movie_datab.rating %}MSDB rating: {{ movie_datab.rating }} - Based on {{ movie_datab.review_count }} rating {% if movie_datab.review_count > 1 %}s{%endif%} {% else %}Not yet rated by MSDB users{% endif %}</p>
+      <p class="d-inline ps-4"> {% if movie_datab.rating %}MSDB rating: {{ movie_datab.rating|floatformat }} - Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%} {% else %}Not yet rated by MSDB users{% endif %}</p>
     </div>
-    <div class="pe-4">
-      {% if user and not review%}
-        <button class="add-review btn btn-outline-light">Add review</button>
-      {% endif %}
-      {% if user and review %}
-      <button class="edit-review btn btn-outline-light">Edit review</button>
-      {% endif %}
-    </div>
+    {% if user %}
+      <div class="pe-4">
+        {% if user and not review%}
+          <button id="add-review" class="btn btn-outline-light">Add review</button>
+        {% endif %}
+        {% if user and review %}
+        <button id="edit-review" class="btn btn-outline-light">Edit review</button>
+        {% endif %}
+      </div>
+    {% else %}
+      <a href="{% url 'account_login' %}"class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In to be able to add reviews">Add review</a>
+    {% endif %}
   </div>
   {% include "review/reviews.html" with reviews=reviews review=review%}
 </div>
 
-{% if user and not review%}
-  {% include 'review/add_review.html' with form=form%}
-{% endif %}
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 
 {% endblock content %}
 
 {% block inline_javascript %}
 <script>
-  $(document).ready(function() {
-    $(".add-review").modalForm({
-        
+  const user = "{{user}}"
+  const review = "{{review}}"
+
+  if (user != "None" && review == "None") {
+    document.addEventListener('DOMContentLoaded', (e) => {
+      modalForm(document.getElementById('add-review'), {
+        formURL: "{% url 'add_review' movie_datab.id %}"
+      })
     });
-  });
+  }
+  if (user && review) {
+    document.addEventListener('DOMContentLoaded', (e) => {
+      modalForm(document.getElementById('edit-review'), {
+        formURL: "{% url 'edit_review' movie_datab.id %}"
+      })
+    });
+  }
 </script>
 {% endblock inline_javascript %}

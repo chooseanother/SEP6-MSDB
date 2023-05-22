@@ -5,16 +5,19 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
-import msdb.views.home
-import msdb.views.movie
-import msdb.views.search
-import msdb.views.person
+from msdb.views.home import home
+from msdb.views.movie import movie
+from msdb.views.search import search
+from msdb.views.person import person
+from msdb.views.movie import add_review, edit_review
 
 urlpatterns = [
-    path("", msdb.views.home.home, name="home"),
-    path("search/", msdb.views.search.search, name="search"),
-    path("movie/<str:movie_id>", msdb.views.movie.movie, name="movie"),
-    path("person/<str:person_name>", msdb.views.person.person, name="person"),
+    path("", home, name="home"),
+    path("search/", search, name="search"),
+    path("movie/<str:movie_id>", movie, name="movie"),
+    path("person/<str:person_name>", person, name="person"),
+    path("add_review/<str:movie_id>", add_review, name="add_review"),
+    path("edit_review/<str:movie_id>", edit_review, name="edit_review"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
