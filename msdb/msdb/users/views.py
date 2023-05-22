@@ -17,17 +17,27 @@ def user_detail_view(request, pk):
     reviews1 = user.reviews.all()[:6]
     reviews2 = user.reviews.all()[6:]
 
-    favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)
-    favorites1 = favorites.movies.all()[:6]
-    favorites2 = favorites.movies.all()[6:]
+    if List.objects.filter(user_id=user.id):
+        favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)
+        favorites1 = favorites.movies.all()[:6]
+        favorites2 = favorites.movies.all()[6:]
 
-    watchlist = user.lists.get(list_type=List.ListChoices.WATCHLIST)
-    watchlist1 = watchlist.movies.all()[:6]
-    watchlist2 = watchlist.movies.all()[6:]
+        watchlist = user.lists.get(list_type=List.ListChoices.WATCHLIST)
+        watchlist1 = watchlist.movies.all()[:6]
+        watchlist2 = watchlist.movies.all()[6:]
 
-    watched = user.lists.get(list_type=List.ListChoices.WATCHED)
-    watched1 = watched.movies.all()[:6]
-    watched2 = watched.movies.all()[6:]
+        watched = user.lists.get(list_type=List.ListChoices.WATCHED)
+        watched1 = watched.movies.all()[:6]
+        watched2 = watched.movies.all()[6:]
+
+    else:
+        favorites1 = None
+        favorites2 = None
+        watchlist1 = None
+        watchlist2 = None
+        watched1 = None
+        watched2 = None
+
 
     context = dict(me=request.user, user=user,
                    reviews1=reviews1, reviews2=reviews2,
