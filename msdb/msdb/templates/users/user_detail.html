@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.name }}{% endblock %}
+{% block title %}{{ user.name }}{% endblock %}
 
 {% block content %}
 
-<h2>{{ object.name }}</h2>
+<h2>{{ user.name }}</h2>
 
 <!--only for the user's own view-->
-{% if object == request.user %}
+{% if user == me %}
 <div class="float-end">
   <a class="btn btn-dark" href="{% url 'users:update' %}" role="button">Change username</a>
 </div>
+{% endif %}
+
+{% if reviews1 %}
+{% include 'movie_list_collapsable.html' with title='Reviews' list1=reviews1 list2=reviews2 collapse_id='collapse_reviews'%}
 {% endif %}
 
 {% endblock content %}

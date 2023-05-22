@@ -4,17 +4,20 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
+from django.shortcuts import render
 
 User = get_user_model()
 
+def user_detail_view(request, pk):
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    slug_field = "id"
-    slug_url_kwarg = "id"
+    user = User.objects.get(id=pk)
 
+    reviews1 = user.reviews.all()[:6]
+    reviews2 = user.reviews.all()[6:]
 
-user_detail_view = UserDetailView.as_view()
+    context = dict(me=request.user, user=user, reviews1=reviews1, reviews2=reviews2)
+
+    return render(request, "users/user_detail.html", context)
 
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
