@@ -3,6 +3,7 @@ from msdb.forms.review import ReviewForm
 from msdb.utils.movie_api import get_movie_from_api, MovieFromApi
 from msdb.models import Movie
 from msdb.models import List
+from msdb.models import Review
 
 def movie(request, movie_id):
     #if movie id does not exist in our database, throw 404
