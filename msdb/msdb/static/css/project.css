@@ -15,6 +15,7 @@
 /*BADGE*/
 .badge.bg-light.text-dark{
   text-decoration: none !important;
+  font-size: 1em;
 }
 
 /*MOVIE LIST (UNDERLINE TITLE, BLUR IMAGE)*/
