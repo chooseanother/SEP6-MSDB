@@ -1,34 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.name }}{% endblock %}
+{% block title %}{{ user.name }}{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+<h2>{{ user.name }}</h2>
 
-      <h2>{{ object.name }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
-    </div>
-  </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
+<!--only for the user's own view-->
+{% if user == me %}
+<div class="float-end">
+  <a class="btn btn-dark" href="{% url 'users:update' %}" role="button">Change username</a>
 </div>
-<!-- End Action buttons -->
 {% endif %}
 
-</div>
+{% if reviews1 %}
+{% include 'movie_list_collapsable.html' with title='Reviews' list1=reviews1 list2=reviews2 collapse_id='collapse_reviews'%}
+{% endif %}
+
 {% endblock content %}
