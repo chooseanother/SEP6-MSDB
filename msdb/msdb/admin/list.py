@@ -6,6 +6,5 @@ from msdb.models import List
 class ListAdmin(admin.ModelAdmin):
     list_display = [
         "user",
-        "list_type",
-        "movies",
+        "list_type"
     ]

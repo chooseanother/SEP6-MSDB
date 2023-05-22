@@ -37,22 +37,22 @@
       <p>Released: {{ movie_api.released }}</p>
       <p>{{ movie_api.plot }}</p>
     </div>
-    <div class="col-md-4 col-sm-12">
-      <section style="float: right;">
-        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favorites">
-          <i class="fa-solid fa-heart"></i>
-        </a>
-        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to watched">
-          <i class="fa-solid fa-eye"></i>
-        </a>
-        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to watchlist">
-          <i class="fa-solid fa-ticket"></i>
-        </a>
-        <a class="btn btn-outline-light btn-floating m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Recommend to a friend">
-          <i class="fa-regular fa-share-from-square"></i>
-        </a>
-      </section>
-    </div>
+    <!--only show those if user is logged in-->
+    {% if user %}
+      <div class="col-md-4 col-sm-12">
+        <section style="float: right;">
+          <a class="btn btn-outline-light btn-floating m-1 list-toggle-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{% if is_favorites %}Remove from {% else %}Add to {% endif %}favorites" id="FA">
+            <i class="fa-solid fa-heart" {% if is_favorites %} style="color: #208454;" {% endif %}></i>
+          </a>
+          <a class="btn btn-outline-light btn-floating m-1 list-toggle-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{% if is_watched %}Remove from {% else %}Add to {% endif %}watched" id="WA">
+            <i class="fa-solid fa-eye" {% if is_watched %} style="color: #208454;" {% endif %}></i>
+          </a>
+          <a class="btn btn-outline-light btn-floating m-1 list-toggle-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{% if is_watchlist %}Remove from {% else %}Add to {% endif %}watchlist" id="LI">
+            <i class="fa-solid fa-ticket" {% if is_watchlist %} style="color: #208454;" {% endif %}></i>
+          </a>
+        </section>
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -124,4 +124,86 @@
   </div>
 </div>
 
+<div id="snackbar">Message</div>
+
 {% endblock content %}
+
+{% block inline_javascript %}
+<script>
+    // getCookie Provided by Django in the Official Docs
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+  $('.list-toggle-button').bind('click', function (e){
+    e.preventDefault();
+    const list_type = $(this).attr('id');
+    const target = $(this)
+    $.ajax({
+      type: "POST",
+      url: "{% url 'toggle_list' %}",
+      data: {
+        user_id: "{{ user.id }}",
+        movie_id: "{{ movie_datab.id }}",
+        list_type: list_type,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+
+      success: function (response) {
+        /*show and disappear snackbar*/
+        var snackbar = document.getElementById("snackbar");
+        snackbar.innerHTML = response.message;
+        snackbar.className = "show";
+        setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+
+        console.log("success")
+        console.log(target)
+        // action is either "add" or "remove"
+        const response_action = response.action
+        if(response_action === "add"){
+          switch(list_type){
+            case 'FA':
+              target.attr('title', 'Remove from favorites');
+              break;
+            case 'LI':
+              break;
+            case 'WA':
+
+          }
+          target.children().first().css("color","#208454");
+        }
+        else if(response_action === "remove"){
+          switch(list_type){
+            case 'FA':
+              target.attr('title', 'Add to favorites');
+              break;
+            case 'LI':
+              break;
+            case 'WA':
+
+          }
+          target.children().first().css("color","");
+        }
+
+      },
+      error: function (response) {
+        console.log("error")
+      }
+    })
+  });
+</script>
+{% endblock inline_javascript %}

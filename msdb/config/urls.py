@@ -9,11 +9,13 @@ import msdb.views.home
 import msdb.views.movie
 import msdb.views.search
 import msdb.views.person
+import msdb.views.lists
 
 urlpatterns = [
     path("", msdb.views.home.home, name="home"),
     path("search/", msdb.views.search.search, name="search"),
     path("movie/<str:movie_id>", msdb.views.movie.movie, name="movie"),
+    path("toggle/", msdb.views.lists.toggle_list, name="toggle_list"),
     path("person/<str:person_name>", msdb.views.person.person, name="person"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
