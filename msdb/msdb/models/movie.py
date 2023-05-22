@@ -17,3 +17,7 @@ class Movie(models.Model):
     @property
     def rating(self):
         return self.reviews.aggregate(models.Avg("rating"))["rating__avg"]
+    
+    @property
+    def review_count(self):
+        return self.reviews.count()

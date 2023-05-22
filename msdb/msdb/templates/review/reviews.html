@@ -1,28 +1,34 @@
 <div class="container mt-4">
     <div class="row">
+      {% if review %}
+      <div class="col-sm-12 col-md-6">
+          <div class="card text-dark m-3" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#ratingModal">
+            <div class="card-body">
+              <h5 class="card-title">{{review.user.name}}</h5>
+              {% include 'review/rating.html' with rating=review.rating%}
+              <p class="text-truncate">
+                {{ review.text }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
       {% for review in reviews %}
         <div class="col-sm-12 col-md-6">
           <div class="card text-dark m-3" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#ratingModal">
             <div class="card-body">
               <h5 class="card-title">{{review.user.name}}</h5>
-              <span class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              </span>
+              {% include 'review/rating.html' with rating=review.rating%}
               <p class="text-truncate">
-                Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder
-                beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle.
-                Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
+                {{ review.text }}
               </p>
             </div>
           </div>
         </div>
       {% endfor %}
     </div>
-  </div>
+</div>
 
 
 <!--modal-->
