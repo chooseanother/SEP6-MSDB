@@ -84,7 +84,7 @@
       <a href="{% url 'account_login' %}"class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In to be able to add reviews">Add review</a>
     {% endif %}
   </div>
-  {% include "review/reviews.html" with reviews=reviews review=review%}
+  {% include 'review_list_collapsable.html' with reviews=reviews review=review loop1=loop1 loop2=loop2%}
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -189,18 +189,19 @@
       }
     })
   });
+
   const user = "{{user}}"
   const review = "{{review}}"
 
   if (user != "None" && review == "None") {
-    document.addEventListener('DOMContentLoaded', (e) => {
+    document.addEventListener('DOMContentLoaded', (e1) => {
       modalForm(document.getElementById('add-review'), {
         formURL: "{% url 'add_review' movie_datab.id %}"
       })
     });
   }
   if (user && review) {
-    document.addEventListener('DOMContentLoaded', (e) => {
+    document.addEventListener('DOMContentLoaded', (e2) => {
       modalForm(document.getElementById('edit-review'), {
         formURL: "{% url 'edit_review' movie_datab.id %}"
       })

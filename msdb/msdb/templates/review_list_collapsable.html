@@ -1,0 +1,50 @@
+<div class="container mt-4">
+    <div class="row">
+        {% if review %}
+          {% include 'review/review.html' with review=review color=review%}
+        {% endif %}
+        {% for review in reviews %}
+            {% if forloop.counter0 < loop1%}
+                {% include 'review/review.html' with review=review%}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="collapse" id="collapse">
+        <div class="row">
+        {% for review in reviews %}
+            {% if forloop.counter0 > loop2%}
+                {% include 'review/review.html' with review=review%}
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+  
+    <!-- if review list is bigger than 4 show button -->
+    {% if reviews|length > 4 %}
+      <div style="text-align: center;">
+        <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collapse" type="button" aria-expanded="false" aria-controls="{{ collapse_id }}">
+          Expand/collapse
+        </button>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% block inline_javascript %}
+{% if review %}
+<script>
+    const user2 = "{{user}}"
+    const review2 = "{{review}}"
+
+    if (user2 && review2) {
+        document.addEventListener('DOMContentLoaded', (e3) => {
+        modalForm(document.getElementById('edit-review-review'), {
+            formURL: "{% url 'edit_review' movie_datab.id %}"
+        })
+        });
+    }
+
+
+</script>
+{% endif %}
+{% endblock inline_javascript %}
