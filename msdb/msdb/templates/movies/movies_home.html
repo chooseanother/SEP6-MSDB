@@ -86,7 +86,14 @@
             <img src="{{ movie.poster_url }}" alt="{{ movie.title}} poster" style="height: 300px; width: 200px; object-fit: contain"/>
             <div class="d-block ms-3 text-white">
               <h3 class="m-0">{{ movie.title }}</h3>
-              <h4 class="m-1"><i class="fa-solid fa-star text-warning"></i> 4.36</h4>
+              <h4 class="m-1">
+                <i class="fa-solid fa-star text-warning"></i>
+                {% if movie.rating %}
+                  {{ movie.rating }}
+                {% else %}
+                  No rating
+                {% endif %}
+              </h4>
               <p class="m-1">{{ movie.year }}</p>
               <p class="m-1">
                 {% for genre in movie.genre %}
