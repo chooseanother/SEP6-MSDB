@@ -1,0 +1,46 @@
+<div class="col-sm-12 col-md-6">
+    {% if color %}
+    <div class="card text-dark m-3" style="cursor: pointer; background-color: #D0E6DD;" id="edit-review-review">
+    {% else %}
+    <div class="card text-dark m-3 review-show-modal" style="cursor: pointer;" id="{{review.id}}">
+    {% endif %}
+      <div class="card-body">
+        <!-- Check if review is displayed on users page -->
+        <!-- if yes then dislay movie title -->
+        <!--<h5 class="card-title">{{review.movie.title}}</h5>-->
+        <h5 class="card-title">{% include 'review/rating.html' with rating=review.rating%} by {{review.user.name}}</h5>
+        <p class="text-truncate">
+          {{ review.text }}
+        </p>
+      </div>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade text-dark" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+  
+</div>
+
+
+<!-- javascript to handle opening review information in modal -->
+{% block inline_javascript %}
+<script>
+    
+    
+        $('#{{review.id}}').click(function() {
+            var reviewId = $(this).attr('id');
+            $.ajax({
+                url: "{% url 'review' PLACEHOLDER %}".replace('PLACEHOLDER', reviewId),
+                type: 'GET',
+                data: {
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                },
+                success: function(response) {
+                    $('#ratingModal').html(response);
+                    $('#ratingModal').modal('show');
+                }
+            });
+        });
+    
+</script>
+{% endblock inline_javascript%}

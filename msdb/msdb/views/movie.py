@@ -47,9 +47,16 @@ def movie(request, movie_id):
 
     # get all reviews for a movie and exclude the logged in users review if it exists
     reviews = movie_datab.reviews.exclude(user=user) if request.user.is_authenticated else movie_datab.reviews.all()
-    context["reviews"] = reviews
+    context["reviews"] = reviews.order_by("-created_at")
     context["review"] = review
+    if review:
+        context["loop1"] = 3
+        context["loop2"] = 2
+    else:
+        context["loop1"] = 4
+        context["loop2"] = 3
     context["user"] = user
+    context["PLACEHOLDER"] = "PLACEHOLDER"
 
     return render(request, "movies/movie.html", context)
 
@@ -88,3 +95,4 @@ def edit_review(request, movie_id):
     else:
         form = ReviewForm(instance=review)
     return render(request, "review/edit_review.html", dict(form=form, movie=movie))
+

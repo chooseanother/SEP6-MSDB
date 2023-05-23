@@ -1,0 +1,20 @@
+<div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ratingModalLabel">Review by <a href="{% url 'users:detail' review.user.id%}">{{ review.user.name }}</a></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ review.movie.title }}
+        {% include 'review/rating.html' with rating=review.rating%}
+        {{ review.created_at|date:"F d, Y" }} {{ review.created_at|date:"g:i A" }}
+        {{ review.edited_at|date:"F d, Y" }} {{ review.edited_at|date:"g:i A" }}
+        <p>
+          {{ review.text }}
+        </p>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+    </div>
+</div>
