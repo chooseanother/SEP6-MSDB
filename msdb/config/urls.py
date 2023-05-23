@@ -11,6 +11,7 @@ from msdb.views.search import search
 from msdb.views.person import person
 from msdb.views.movie import add_review, edit_review
 from msdb.views.lists import toggle_list
+from msdb.views.review import review
 
 urlpatterns = [
     path("", home, name="home"),
@@ -18,8 +19,10 @@ urlpatterns = [
     path("movie/<str:movie_id>", movie, name="movie"),
     path("toggle/", toggle_list, name="toggle_list"),
     path("person/<str:person_name>", person, name="person"),
+    path("review/<str:review_id>", review, name="review"),
     path("add_review/<str:movie_id>", add_review, name="add_review"),
     path("edit_review/<str:movie_id>", edit_review, name="edit_review"),
+
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
