@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.db.models import Avg
+from django.db.models import Avg, F
 import datetime
 
 from msdb.models import Movie
 
 def person(request, person_name):
-    movies_director = Movie.objects.filter(director__icontains=person_name).annotate(avg_rating=Avg('reviews__rating')).order_by('avg_rating')
-    movies_actor = Movie.objects.filter(actors__icontains=person_name).annotate(avg_rating=Avg('reviews__rating')).order_by('avg_rating')
+    movies_director = Movie.objects.filter(director__icontains=person_name).annotate(avg_rating=Avg('reviews__rating')).order_by(F('avg_rating').desc(nulls_last=True))
+    movies_actor = Movie.objects.filter(actors__icontains=person_name).annotate(avg_rating=Avg('reviews__rating')).order_by(F('avg_rating').desc(nulls_last=True))
 
     movies_director1 = movies_director[:6]
     movies_actor1 = movies_actor[:6]
