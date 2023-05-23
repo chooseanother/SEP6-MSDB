@@ -72,7 +72,10 @@ def add_review(request, movie_id):
             if movie.reviews.filter(user=request.user).exists():
                 return redirect("movie", movie_id=movie_id)
             review.save()
-            # TODO: add the rated movie to a users watched list
+            # add the rated movie to a users watched list
+            if request.user.is_authenticated:
+                watched_list = request.user.lists.get(list_type=List.ListChoices.WATCHED)
+                watched_list.movies.add(movie)
             
             return redirect("movie", movie_id=movie_id)
     else:
