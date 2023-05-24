@@ -11,9 +11,10 @@ from msdb.users.models import User
 def search(request):
     if request.method == "POST":
         search_string = request.POST.get("query")
-        if not search_string:
+        if not search_string or not (queries:=search_string.split()):
             return render(request, "search/search.html", {})
-        queries = search_string.split()
+        
+        print(queries)
 
         # Find movies
         movies = search_movie(queries)
