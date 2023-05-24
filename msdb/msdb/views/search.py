@@ -13,8 +13,6 @@ def search(request):
         search_string = request.POST.get("query")
         if not search_string or not (queries:=search_string.split()):
             return render(request, "search/search.html", {})
-        
-        print(queries)
 
         # Find movies
         movies = search_movie(queries)
