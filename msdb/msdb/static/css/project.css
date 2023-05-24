@@ -13,7 +13,7 @@
 }
 
 /*BADGE*/
-.badge.bg-light.text-dark{
+.badge.bg-light.text-dark, .badge.bg-dark{
   text-decoration: none !important;
   font-size: 1em;
 }
