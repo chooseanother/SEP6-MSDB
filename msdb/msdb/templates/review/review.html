@@ -1,24 +1,35 @@
 <div class="col-sm-12 col-md-6">
     {% if color %}
-    <div class="card text-dark m-3" style="cursor: pointer; background-color: #D0E6DD;" id="edit-review-review">
+    <div class="card text-dark m-3" style="cursor: pointer; background-color: #D0E6DD; margin-bottom: 10px !important;" id="edit-review-review">
     {% else %}
-    <div class="card text-dark m-3 review-show-modal" style="cursor: pointer;" id="{{review.id}}">
+    <div class="card text-dark m-3 review-show-modal" style="cursor: pointer; margin-bottom: 10px !important;" id="{{review.id}}">
     {% endif %}
       <div class="card-body">
         <!-- Check if review is displayed on users page -->
         <!-- if yes then dislay movie title -->
         <!--<h5 class="card-title">{{review.movie.title}}</h5>-->
-        <h5 class="card-title">{% include 'review/rating.html' with rating=review.rating%} by {{review.user.name}}</h5>
+        <h5 class="card-title">{% include 'review/rating.html' with rating=review.rating%}</h5>
         <p class="text-truncate">
           {{ review.text }}
         </p>
       </div>
     </div>
+    <div style="display: flex;">
+      <div class="card" style="margin: 0 1em 1em 4em; width: 25px; height: 25px;">
+      </div>
+      <div class="card" style="margin: 2em 1em 1em 0; width: 15px; height: 15px;">
+      </div>
+      <div style="margin-left: 1em;">
+        <h5 style="margin-bottom: 0;">{{ review.user.name }}</h5>
+        <p>{{ review.user.reviews.count }} review(s)</p>
+      </div>
+
+    </div>
 </div>
 
 <!--modal-->
 <div class="modal fade text-dark" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-  
+
 </div>
 
 
