@@ -20,7 +20,9 @@
       <div class="card" style="margin: 2em 1em 1em 0; width: 15px; height: 15px;">
       </div>
       <div style="margin-left: 1em;">
-        <h5 style="margin-bottom: 0;">{{ review.user.name }}</h5>
+        <a class="badge bg-light text-dark" href="{% url 'users:detail' review.user.id%}" style="margin-bottom: 0;">
+          {{ review.user.name }}
+        </a>
         <p>{{ review.user.reviews.count }} review{% if review.user.reviews.count > 1 %}s{% endif %}</p>
       </div>
 
