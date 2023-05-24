@@ -21,7 +21,7 @@
       </div>
       <div style="margin-left: 1em;">
         <h5 style="margin-bottom: 0;">{{ review.user.name }}</h5>
-        <p>{{ review.user.reviews.count }} review(s)</p>
+        <p>{{ review.user.reviews.count }} review{% if review.user.reviews.count > 1 %}s{% endif %}</p>
       </div>
 
     </div>
