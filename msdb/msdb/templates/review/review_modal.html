@@ -1,3 +1,5 @@
+{% load tz %}
+
 <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header" style="align-items: flex-start;">
@@ -10,9 +12,9 @@
           </h5>
           <p style="margin-bottom: 0;">{{ review.movie.title }}</p>
           <p style="margin-bottom: 0;">{% include 'review/rating.html' with rating=review.rating%}</p>
-          <p style="margin-bottom: 0;">Created: {{ review.created_at|date:"F d, Y" }} {{ review.created_at|date:"g:i A" }}</p>
-          {% if review.edited_at %}
-            <p style="margin-bottom: 0;">Edited: {{ review.edited_at|date:"F d, Y" }} {{ review.edited_at|date:"g:i A" }}</p>
+          <p style="margin-bottom: 0;">Created: {{ review.created_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.created_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
+          {% if review.updated_at %}
+            <p style="margin-bottom: 0;">Updated: {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
           {% endif %}
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
