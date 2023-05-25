@@ -33,7 +33,7 @@
                 <p>{{ movie.year }}</p>
                 <p>
                   {% for genre in movie.genre %}
-                  {% if forloop.last %}
+                    {% if forloop.last %}
                       <span>{{ genre }}</span>
                     {% else %}
                       <span>{{ genre }}, </span>
