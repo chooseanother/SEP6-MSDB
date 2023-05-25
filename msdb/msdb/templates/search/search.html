@@ -54,7 +54,7 @@
         <a href="{% url 'users:detail' user.id%}" class="search_link">
           <div class="mb-4">
             <h5 style="margin-bottom: 0;">{{ user.name }}</h5>
-            <p> {{ user.num_reviews }} reviews</p>
+            <p> {{ user.num_reviews }} review{% if user.num_reviews > 1 %}s{% endif %}</p>
           </div>
         </a>
       {% empty %}

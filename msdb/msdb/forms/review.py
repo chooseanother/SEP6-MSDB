@@ -12,13 +12,6 @@ class ReviewForm(forms.ModelForm):
         self.fields["rating"].widget = forms.RadioSelect(choices=Review.RATING_CHOICES)
         # add placeholder text "optional" to text field
         self.fields["text"].widget.attrs["placeholder"] = "Optional"
-        # set the self.helper property:
-        self.helper = FormHelper()
-
-        # self.helper.layout = Layout(
-        #     Field('rating', css_class="form-check form-check-inline"),
-        #     Field("text"),
-        # )
 
     class Meta:
         model = Review

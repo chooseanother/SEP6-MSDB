@@ -1,0 +1,54 @@
+<div class="col-sm-12 col-md-6">
+    {% if color %}
+    <div class="card text-dark m-3" style="cursor: pointer; background-color: #D0E6DD; margin-bottom: 10px !important;" id="edit-review-review">
+    {% else %}
+    <div class="card text-dark m-3 review-show-modal" style="cursor: pointer; margin-bottom: 10px !important;" id="{{review.id}}">
+    {% endif %}
+      <div class="card-body">
+        <!-- Check if review is displayed on users page -->
+        <!-- if yes then dislay movie title -->
+        <!--<h5 class="card-title">{{review.movie.title}}</h5>-->
+        <h5 class="card-title">{% include 'review/rating.html' with rating=review.rating%}</h5>
+        <p class="text-truncate">
+          {{ review.text }}
+        </p>
+      </div>
+    </div>
+    <div style="display: flex;">
+      <div class="card" style="margin: 0 1em 1em 4em; width: 25px; height: 25px;">
+      </div>
+      <div class="card" style="margin: 2em 1em 1em 0; width: 15px; height: 15px;">
+      </div>
+      <a class="badge bg-light text-dark" href="{% url 'users:detail' review.user.id%}"
+         style="margin-bottom: 0; height: fit-content; margin-top: 1.5em;">
+          {{ review.user.name }}
+      </a>
+      <p style="margin: 1.5em 0 0 2em;">{{ review.user.reviews.count }} review{% if review.user.reviews.count > 1 %}s{% endif %}</p>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade text-dark" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+
+</div>
+
+
+<!-- javascript to handle opening review information in modal -->
+{% block inline_javascript %}
+<script>
+    // fetch inner html of modal and display it
+    $('#{{review.id}}').click(function() {
+        $.ajax({
+            url: "{% url 'review' review.id %}",
+            type: 'GET',
+            data: {
+                'csrfmiddlewaretoken': "{{ csrf_token }}",
+            },
+            success: function(response) {
+                $('#reviewModal').html(response);
+                $('#reviewModal').modal('show');
+            }
+        });
+    });
+</script>
+{% endblock inline_javascript%}

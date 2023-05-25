@@ -9,6 +9,7 @@ uvicorn[standard]==0.22.0  # https://github.com/encode/uvicorn
 django-bootstrap-modal-forms==3.0.2 # https://pypi.org/project/django-bootstrap-modal-forms/
 requests==2.30.0
 fontawesomefree==6.4.0
+pytz==2023.3
 
 # Django
 # ------------------------------------------------------------------------------

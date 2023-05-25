@@ -1,0 +1,31 @@
+{% load tz %}
+
+<div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="align-items: flex-start;">
+        <div style="display: block;">
+          <h5 class="modal-title" id="ratingModalLabel">
+            Review by
+            <a href="{% url 'users:detail' review.user.id%}" class="badge bg-dark text-light" >
+              {{ review.user.name }}
+            </a>
+          </h5>
+          <p style="margin-bottom: 0;">{{ review.movie.title }}</p>
+          <p style="margin-bottom: 0;">{% include 'review/rating.html' with rating=review.rating%}</p>
+          <p style="margin-bottom: 0;">Created: {{ review.created_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.created_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
+          {% if review.updated_at %}
+            <p style="margin-bottom: 0;">Updated: {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
+          {% endif %}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          {{ review.text }}
+        </p>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+    </div>
+</div>

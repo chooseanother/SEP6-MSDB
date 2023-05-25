@@ -1,0 +1,55 @@
+<div class="p-2 d-block col-sm-12 col-md-6">
+    <div class="card text-dark mt-1" style="cursor: pointer;" id="review{{review.id}}">
+      <div class="card-title d-flex justify-content-between p-2">
+        <h5>{{ review.movie.title }}</h5>
+        <div style="min-width: fit-content; margin-left: 1em;">
+          {% include 'review/rating.html' with rating=review.rating %}
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="text-truncate">{{ review.text }}</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!--modal-->
+<div class="modal fade text-dark" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+<!--open modal-->
+{% block inline_javascript %}
+<script>
+    // fetch inner html of modal and display it
+    var current_user = "{{user.id}}"
+    var me = "{{me.id}}"
+      if(current_user !== me) {
+        $('#review{{review.id}}').click(function () {
+          $.ajax({
+            url: "{% url 'user_review' review.id %}",
+            type: 'GET',
+            data: {
+              'csrfmiddlewaretoken': "{{ csrf_token }}",
+            },
+            success: function (response) {
+              $('#reviewModal').html(response);
+              $('#reviewModal').modal('show');
+            }
+          });
+        });
+      }
+      else{
+        document.addEventListener('DOMContentLoaded', (e2) => {
+          modalForm(document.getElementById('review{{review.id}}'), {
+            formURL: "{% url 'edit_review' review.movie.id %}"
+          })
+        });
+      }
+</script>
+{% endblock inline_javascript%}
