@@ -1,0 +1,32 @@
+{% load static i18n compress%}
+
+<h3 class="mt-5">{{ title }} ({{ list1.count|add:list2.count }})</h3>
+<div class="bg-dark text-white p-4" style="margin: auto;">
+  <div class="w-100 container">
+    <div class="row">
+      {% for review in list1 %}
+        {% include 'review/user_review.html' with review=review  %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="collapse" id="{{ collapse_id }}">
+    <div class="w-100 container align-items-center">
+      <div class="row">
+        {% for review in list2 %}
+          {% include 'review/user_review.html' with review=review %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% if list2 %}
+    <div style="text-align: center;">
+      <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}" type="button" aria-expanded="false" aria-controls="{{ collapse_id }}">
+        Expand/collapse
+      </button>
+    </div>
+  {% endif %}
+</div>
+
+
+

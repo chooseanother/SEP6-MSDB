@@ -17,6 +17,10 @@
   text-decoration: none !important;
   font-size: 1em;
 }
+.badge {
+  white-space: normal !important;
+  text-align: start;
+}
 
 /*MOVIE LIST (UNDERLINE TITLE, BLUR IMAGE)*/
 .movie_search_link img{

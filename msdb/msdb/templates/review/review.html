@@ -28,7 +28,7 @@
 </div>
 
 <!--modal-->
-<div class="modal fade text-dark" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+<div class="modal fade text-dark" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
 
 </div>
 
@@ -38,16 +38,15 @@
 <script>
     // fetch inner html of modal and display it
     $('#{{review.id}}').click(function() {
-        var reviewId = $(this).attr('id');
         $.ajax({
-            url: "{% url 'review' PLACEHOLDER %}".replace('PLACEHOLDER', reviewId),
+            url: "{% url 'review' review.id %}",
             type: 'GET',
             data: {
                 'csrfmiddlewaretoken': "{{ csrf_token }}",
             },
             success: function(response) {
-                $('#ratingModal').html(response);
-                $('#ratingModal').modal('show');
+                $('#reviewModal').html(response);
+                $('#reviewModal').modal('show');
             }
         });
     });

@@ -56,7 +56,6 @@ def movie(request, movie_id):
         context["loop1"] = 4
         context["loop2"] = 3
     context["user"] = user
-    context["PLACEHOLDER"] = "PLACEHOLDER"
 
     return render(request, "movies/movie.html", context)
 

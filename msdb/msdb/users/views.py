@@ -14,8 +14,8 @@ def user_detail_view(request, pk):
 
     user = User.objects.get(id=pk)
 
-    reviews1 = user.reviews.all()[:6]
-    reviews2 = user.reviews.all()[6:]
+    reviews1 = user.reviews.all().order_by('-created_at')[:4]
+    reviews2 = user.reviews.all().order_by('-created_at')[4:]
 
     if List.objects.filter(user_id=user.id):
         favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)

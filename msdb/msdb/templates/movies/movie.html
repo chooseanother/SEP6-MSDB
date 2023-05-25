@@ -61,13 +61,13 @@
 <div class="container bg-dark text-white p-4">
   <div class="d-flex justify-content-between">
     <div>
-      <p class="d-inline ps-4" data-bs-toggle="tooltip" data-bs-placement="top" title="MSDB rating"> 
+      <p class="d-inline ps-4" data-bs-toggle="tooltip" data-bs-placement="top" title="MSDB rating">
         {% if movie_datab.rating %}
-          <span style="font-size: 2em;"> 
-            <i class="fa-solid text-warning fa-star"></i> 
-            {{ movie_datab.rating|floatformat }} 
+          <span style="font-size: 2em;">
+            <i class="fa-solid text-warning fa-star"></i>
+            {{ movie_datab.rating|floatformat }}
           </span>
-          Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%} 
+          Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%}
           {% else %}Not yet rated by MSDB users{% endif %}
       </p>
     </div>
@@ -84,7 +84,7 @@
       <a href="{% url 'account_login' %}"class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In to be able to add reviews">Add review</a>
     {% endif %}
   </div>
-  {% include 'review_list_collapsable.html' with reviews=reviews review=review loop1=loop1 loop2=loop2%}
+  {% include 'collapsable_lists/review_list_collapsable.html' with reviews=reviews review=review loop1=loop1 loop2=loop2%}
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -100,25 +100,6 @@
 
 {% block inline_javascript %}
 <script>
-    // getCookie Provided by Django in the Official Docs
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    const csrftoken = getCookie('csrftoken');
-
   $('.list-toggle-button').bind('click', function (e){
     e.preventDefault();
     const list_type = $(this).attr('id');
