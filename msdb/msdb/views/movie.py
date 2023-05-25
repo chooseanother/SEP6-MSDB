@@ -19,7 +19,7 @@ def movie(request, movie_id):
         movie_api = get_movie_from_api(movie_id)
     except Exception:
         pass
-    
+
     user = None
     is_favorites = None
     is_watched = None
@@ -40,7 +40,7 @@ def movie(request, movie_id):
             review = movie_datab.reviews.get(user=user)
         except Exception:
             review = None
-        
+
 
     context = dict(movie_api=movie_api, movie_datab=movie_datab, user=user,
                 is_favorites=is_favorites, is_watched=is_watched, is_watchlist=is_watchlist)
@@ -76,11 +76,11 @@ def add_review(request, movie_id):
             if request.user.is_authenticated:
                 watched_list = request.user.lists.get(list_type=List.ListChoices.WATCHED)
                 watched_list.movies.add(movie)
-            
+
             return redirect("movie", movie_id=movie_id)
     else:
         form = ReviewForm()
-    return render(request, "review/add_review.html", dict(form=form, movie=movie))
+    return render(request, "review/add_edit_review.html", dict(form=form, movie=movie))
 
 
 def edit_review(request, movie_id):
@@ -97,5 +97,5 @@ def edit_review(request, movie_id):
             return redirect("movie", movie_id=movie_id)
     else:
         form = ReviewForm(instance=review)
-    return render(request, "review/edit_review.html", dict(form=form, movie=movie))
+    return render(request, "review/add_edit_review.html", dict(form=form, movie=movie))
 
