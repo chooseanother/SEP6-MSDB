@@ -13,7 +13,7 @@
             {% if movie.poster_url %}
               <img src="{{ movie.poster_url }}" alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:cover;">
             {% else %}
-              <img src="{% static 'images/document_missing.png' %}"  alt="{{movie.title}} poster" style="width:100px;height:150px;object-fit:contain;">
+              <img src="{% static 'images/document_missing.png' %}"  alt="{{movie.title}} poster missing" style="width:100px;height:150px;object-fit:contain;">
             {% endif %}
             <div>
               <h5>{{ movie.title }}</h5>

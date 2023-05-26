@@ -16,7 +16,7 @@
       {% if movie_datab.poster_url %}
         <img src="{{ movie_datab.poster_url }}" alt="{{movie_datab.title}} poster" width="100%">
       {% else %}
-        <img src="{% static 'images/document_missing.png' %}"  alt="{{movie_datab.title}} poster" width="100%">
+        <img src="{% static 'images/document_missing.png' %}"  alt="{{movie_datab.title}} poster missing" width="100%">
       {% endif %}
     </div>
     <div class="col-md-5 col-sm-9">
