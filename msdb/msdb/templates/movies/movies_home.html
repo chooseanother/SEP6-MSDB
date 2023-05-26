@@ -33,7 +33,7 @@
                 <p>{{ movie.year }}</p>
                 <p>
                   {% for genre in movie.genre %}
-                  {% if forloop.last %}
+                    {% if forloop.last %}
                       <span>{{ genre }}</span>
                     {% else %}
                       <span>{{ genre }}, </span>
@@ -89,7 +89,7 @@
               <h4 class="m-1">
                 <i class="fa-solid fa-star text-warning"></i>
                 {% if movie.rating %}
-                  {{ movie.rating }}
+                  {{ movie.rating|floatformat }}
                 {% else %}
                   No rating
                 {% endif %}

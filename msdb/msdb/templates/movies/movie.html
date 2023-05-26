@@ -20,11 +20,6 @@
       {% endif %}
     </div>
     <div class="col-md-5 col-sm-9">
-      <p>Genre:
-        {% for genre in movie_datab.genre %}
-          <a href="#" class="badge bg-light text-dark">{{ genre }}</a>
-        {% endfor %}
-      </p>
       <p>Director:
         {% for director in movie_datab.director %}
           <a href="{% url 'person' director %}" class="badge bg-light text-dark">{{ director }}</a>
@@ -33,6 +28,15 @@
       <p>Actors:
         {% for actor in movie_datab.actors %}
           <a href="{% url 'person' actor %}" class="badge bg-light text-dark">{{ actor }}</a>
+        {% endfor %}
+      </p>
+      <p>Genre:
+        {% for genre in movie_datab.genre %}
+          {% if forloop.last %}
+            <span>{{ genre }}</span>
+          {% else %}
+            <span>{{ genre }}, </span>
+          {% endif %}
         {% endfor %}
       </p>
       <p>Released: {{ movie_api.released }}</p>
