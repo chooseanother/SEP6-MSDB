@@ -41,11 +41,10 @@ def movie(request, movie_id):
         except Exception:
             review = None
 
-
     context = dict(movie_api=movie_api, movie_datab=movie_datab, user=user,
                 is_favorites=is_favorites, is_watched=is_watched, is_watchlist=is_watchlist)
 
-    # get all reviews for a movie and exclude the logged in users review if it exists
+    # get all reviews for a movie and exclude the logged-in users review if it exists
     reviews = movie_datab.reviews.exclude(user=user) if request.user.is_authenticated else movie_datab.reviews.all()
     context["reviews"] = reviews.order_by("-created_at")
     context["review"] = review
@@ -58,6 +57,7 @@ def movie(request, movie_id):
     context["user"] = user
 
     return render(request, "movies/movie.html", context)
+
 
 
 def add_review(request, movie_id):

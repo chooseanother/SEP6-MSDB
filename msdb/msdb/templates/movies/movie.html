@@ -8,6 +8,7 @@
 </style>
 
 {% block content %}
+<div>
 <h1>{{ movie_datab.title }}</h1>
 <p>{{ movie_datab.year }}&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; {{ movie_api.rated}} &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{{ movie_api.runtime }}</p>
 <div class="container bg-dark text-white p-4">
@@ -91,6 +92,33 @@
   {% include 'collapsable_lists/review_list_collapsable.html' with reviews=reviews review=review loop1=loop1 loop2=loop2%}
 </div>
 
+{% if movie_datab.review_count > 0 %}
+  <h3 class="mt-5">Statistics</h3>
+  <div id="loading">
+    <div class="spinner-border m-5" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="container p-4">
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <canvas id="rating_star_amount"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="all_movie_ratings_count"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="ratings_over_time"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="ratings_over_time_cumulative"></canvas>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+</div>
+
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content"></div>
@@ -103,6 +131,165 @@
 {% endblock content %}
 
 {% block inline_javascript %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--charts-->
+<script>
+  function graph(chart_element, type, labels, label, data, textX, textY) {
+    new Chart(chart_element, {
+        type: type,
+        data: {
+          labels : labels,
+            datasets: [{
+              label: label,
+              data : data,
+              backgroundColor: 'rgb(254, 218, 107)',
+              borderColor: 'rgb(255, 193, 7)',
+              borderWidth: 1
+            }]
+        },
+        options: {
+          elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+
+  function graph_compare_to_others(chart_element, labels, label1, label2, data1, data2, textX, textY) {
+    new Chart(chart_element, {
+        data: {
+          labels : labels,
+          datasets: [{
+            type: 'bar',
+            label: label1,
+            data: data1,
+            backgroundColor: 'rgb(254, 218, 107)',
+            borderColor: 'rgb(255, 193, 7)'
+          },
+          {
+            type: 'line',
+            label: label2,
+            data: data2,
+            borderColor: 'rgb(54, 162, 235)'
+          }]
+        },
+        options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+
+  $(document).ready(function (){
+    $("#loading").show();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'movie_stats' movie_datab.id %}",
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function (response){
+        rating_star_amount_list = response.rating_star_amount;
+        const rating_star_amount_labels = [];
+        const rating_star_amount_data = [];
+        rating_star_amount_list.forEach(({rating, count}) => {
+          rating_star_amount_labels.push(rating);
+          rating_star_amount_data.push(count);
+        });
+        const rating_star_amount = document.getElementById('rating_star_amount').getContext('2d');
+        graph(rating_star_amount, 'bar', rating_star_amount_labels, "Number of ratings per stars", rating_star_amount_data, "Stars", "Number of ratings");
+
+        all_movie_ratings_count_list = response.all_movie_ratings_count;
+        const all_movie_ratings_count_labels = [];
+        const all_movie_ratings_count_data = [];
+        const this_movie_ratings_data = [];
+        const movie_rating = "{{ movie_datab.rating|floatformat }}";
+        for(let rating in all_movie_ratings_count_list) {
+          all_movie_ratings_count_labels.push(rating);
+          all_movie_ratings_count_data.push(all_movie_ratings_count_list[rating]);
+          if(rating===  movie_rating){
+            this_movie_ratings_data.push(all_movie_ratings_count_list[rating]);
+          }
+          else{
+            this_movie_ratings_data.push(null);
+          }
+        }
+        const all_movie_ratings_count = document.getElementById('all_movie_ratings_count').getContext('2d');
+        console.log(this_movie_ratings_data);
+        graph_compare_to_others(all_movie_ratings_count, all_movie_ratings_count_labels, "This movie ratings", "All movie rating", this_movie_ratings_data, all_movie_ratings_count_data, "Stars", "Number of ratings");
+
+        ratings_over_time_list = response.ratings_over_time;
+        const ratings_over_time_labels = [];
+        const ratings_over_time_data = [];
+        for(let rating in ratings_over_time_list) {
+          ratings_over_time_labels.push(rating);
+          ratings_over_time_data.push(ratings_over_time_list[rating]);
+        }
+        const ratings_over_time = document.getElementById('ratings_over_time').getContext('2d');
+        graph(ratings_over_time, 'line', ratings_over_time_labels, "Amount of ratings per day", ratings_over_time_data, "Day", "Number of ratings");
+
+        ratings_over_time_cumulative_list = response.ratings_over_time_cumulative;
+        const ratings_over_time_cumulative_labels = [];
+        const ratings_over_time_cumulative_data = [];
+        for(let rating in ratings_over_time_cumulative_list) {
+          ratings_over_time_cumulative_labels.push(rating);
+          ratings_over_time_cumulative_data.push(ratings_over_time_cumulative_list[rating]);
+        }
+        const ratings_over_time_cumulative = document.getElementById('ratings_over_time_cumulative').getContext('2d');
+        graph(ratings_over_time_cumulative, 'line', ratings_over_time_cumulative_labels, "Cumulative amount of ratings over days", ratings_over_time_cumulative_data, "Day", "Number of ratings");
+      },
+      error: function (response) {
+
+      },
+      complete: function (response) {
+        $("#loading").hide();
+      }
+    })
+  });
+</script>
+
 <script>
   $('.list-toggle-button').bind('click', function (e){
     e.preventDefault();
@@ -126,7 +313,6 @@
         setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
 
         console.log("success")
-        console.log(target)
         // action is either "add" or "remove"
         const response_action = response.action
         if(response_action === "add"){
