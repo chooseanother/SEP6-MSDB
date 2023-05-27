@@ -1,7 +1,7 @@
-# PostgreSQL
+# Cloud SQL Auth Proxy
 # ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
+POSTGRES_DB=postgres
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_HOST=cloudsql-proxy
 POSTGRES_PORT=5432
-POSTGRES_DB=msdb
-POSTGRES_USER=vQuqBWUjdYcDZjecMJJvqLTvdGArzdEc
-POSTGRES_PASSWORD=QPxcWVuJhAX9vR24QqhVzsWldGuYreJ9RskvykhYPTaBkeXgjcXwdyuBnmz2CFTz
