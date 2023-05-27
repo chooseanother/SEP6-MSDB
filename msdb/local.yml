@@ -12,7 +12,6 @@ services:
     image: msdb_local_django
     container_name: msdb_local_django
     depends_on:
-      - postgres
       - cloudsql-proxy
     volumes:
       - .:/app:z
@@ -25,22 +24,11 @@ services:
 
   cloudsql-proxy:
       container_name: cloudsql-proxy
-      image: gcr.io/cloudsql-docker/gce-proxy:1.11
-      command: /cloud_sql_proxy --dir=/cloudsql -instances=msdb-db=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/credentials.json
+      image: gcr.io/cloudsql-docker/gce-proxy:latest
+      command: /cloud_sql_proxy -instances=msdb-sep6:europe-west3:msdb-db=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/credentials.json 
       ports:
         - 5432:5432
       volumes:
         - ./msdb-sep6-d95734a89f97.json:/secrets/cloudsql/credentials.json
       restart: always
 
-  postgres:
-    build:
-      context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
-    image: msdb_production_postgres
-    container_name: msdb_local_postgres
-    volumes:
-      - msdb_local_postgres_data:/var/lib/postgresql/data
-      - msdb_local_postgres_data_backups:/backups
-    env_file:
-      - ./.envs/.local/.postgres
