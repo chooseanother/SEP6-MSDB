@@ -372,7 +372,7 @@
       })
     });
   }
-  if (user && review) {
+  if (user != "None" && review != "None") {
     document.addEventListener('DOMContentLoaded', (e2) => {
       modalForm(document.getElementById('edit-review'), {
         formURL: "{% url 'edit_review' movie_datab.id %}"
