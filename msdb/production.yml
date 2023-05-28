@@ -22,7 +22,6 @@ services:
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
-      - ./.envs/.secrets/.env
     command: /start
 
   cloudsql-proxy:

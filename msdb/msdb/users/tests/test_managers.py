@@ -10,10 +10,10 @@ from msdb.users.models import User
 class TestUserManager:
     def test_create_user(self):
         user = User.objects.create_user(
-            email="john@kimdt.tech",
+            email="john@example.com",
             password="something-r@nd0m!",
         )
-        assert user.email == "john@kimdt.tech"
+        assert user.email == "john@example.com"
         assert not user.is_staff
         assert not user.is_superuser
         assert user.check_password("something-r@nd0m!")
@@ -21,17 +21,17 @@ class TestUserManager:
 
     def test_create_superuser(self):
         user = User.objects.create_superuser(
-            email="admin@kimdt.tech",
+            email="admin@example.com",
             password="something-r@nd0m!",
         )
-        assert user.email == "admin@kimdt.tech"
+        assert user.email == "admin@example.com"
         assert user.is_staff
         assert user.is_superuser
         assert user.username is None
 
     def test_create_superuser_username_ignored(self):
         user = User.objects.create_superuser(
-            email="test@kimdt.tech",
+            email="test@example.com",
             password="something-r@nd0m!",
         )
         assert user.username is None
@@ -44,12 +44,12 @@ def test_createsuperuser_command():
     command_result = call_command(
         "createsuperuser",
         "--email",
-        "henry@kimdt.tech",
+        "henry@example.com",
         interactive=False,
         stdout=out,
     )
 
     assert command_result is None
     assert out.getvalue() == "Superuser created successfully.\n"
-    user = User.objects.get(email="henry@kimdt.tech")
+    user = User.objects.get(email="henry@example.com")
     assert not user.has_usable_password()
