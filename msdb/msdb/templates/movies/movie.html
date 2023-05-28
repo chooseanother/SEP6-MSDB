@@ -366,8 +366,6 @@
   const review = "{{review}}"
 
   if (user != "None" && review == "None") {
-    console.log("user is logged in and has not reviewed the movie")
-    console.log(user, review)
     document.addEventListener('DOMContentLoaded', (e1) => {
       modalForm(document.getElementById('add-review'), {
         formURL: "{% url 'add_review' movie_datab.id %}"
@@ -375,8 +373,6 @@
     });
   }
   if (user != "None" && review != "None") {
-    console.log("user is logged in and has reviewed the movie")
-    console.log(user, review)
     document.addEventListener('DOMContentLoaded', (e2) => {
       modalForm(document.getElementById('edit-review'), {
         formURL: "{% url 'edit_review' movie_datab.id %}"
