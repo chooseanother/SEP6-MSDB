@@ -1,9 +1,5 @@
 version: '3'
 
-volumes:
-  msdb_local_postgres_data: {}
-  msdb_local_postgres_data_backups: {}
-
 services:
   django:
     build:
@@ -18,15 +14,15 @@ services:
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
-      - ./.envs/.secrets/.postgres
+      - ./.envs/.secrets/.env
     ports:
       - '8000:8000'
     command: /start
 
   cloudsql-proxy:
       container_name: cloudsql-proxy
-      image: gcr.io/cloudsql-docker/gce-proxy:latest
-      command: /cloud_sql_proxy -instances=msdb-sep6:europe-west3:msdb-db=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/credentials.json 
+      image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.3.0
+      command: --address 0.0.0.0 --port 5432 --credentials-file /secrets/cloudsql/credentials.json msdb-sep6:europe-west3:msdb-db
       ports:
         - 5432:5432
       volumes:
