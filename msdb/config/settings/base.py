@@ -3,7 +3,9 @@ Base settings to build other settings files upon.
 """
 from pathlib import Path
 
+import io
 import environ
+from google.cloud import secretmanager
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # msdb/
@@ -34,6 +36,19 @@ USE_I18N = True
 USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
 LOCALE_PATHS = [str(BASE_DIR / "locale")]
+
+# Test Gcloud Secret Manager
+# ------------------------------------------------------------------------------
+# project_id = "msdb-sep6" #os.environ.get("GOOGLE_CLOUD_PROJECT")
+
+# client = secretmanager.SecretManagerServiceClient()
+# settings_name = "django_settings"#os.environ.get("SETTINGS_NAME", "django_settings")
+# name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
+# payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
+
+# print("=====================================")
+# print(io.StringIO(payload))
+# print("=====================================")
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -218,7 +233,7 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""Kim and Maggie""", "kim-and-maggie@example.com")]
+ADMINS = [("""Kim and Maggie""", "mail@kimdt.tech")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
@@ -275,3 +290,6 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# OMDB API Key
+OMDB_API_KEY = env("OMDB_API_KEY", default="")

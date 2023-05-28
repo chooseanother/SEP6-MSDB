@@ -2,9 +2,6 @@
 
 Social platform for movies
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-
 License: MIT
 
 ## First time setup
@@ -12,6 +9,10 @@ License: MIT
 1. Install docker stuff
 3. clone the repository
 4. Navigate to the `SEP6-MSDB/msdb/` folder
+- get gcp credentials `docker-compose -f docker-compose-deploy.yml run --rm gcloud sh -c "gcloud auth login"`
+- set project `docker-compose -f docker-compose-deploy.yml run --rm gcloud sh -c "gcloud config set project msdb-sep6"`
+- get credentials file
+- pre-commit?
 4. Build the project: `docker-compose -f local.yml build`
 5. Run the project: `docker-compose -f local.yml up`
 6. Access project: http://0.0.0.0:8000
@@ -39,19 +40,19 @@ License: MIT
 3. Update the role of migration files. This is done so that they can be added to the git repository: `sudo chown -R $USER:$USER "path"/SEP6-MSDB/`
 4. Apply the migrations: `docker-compose -f local.yml run --rm django python manage.py migrate`
 
-
+<s>
 ## Access postgres database shell
 
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run the following command to open the postgres dbshell: `docker exec -it msdb_local_postgres bash -c 'psql msdb -U $POSTGRES_USER'`
-
+</s>
 ## Running tests
 
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run tests: `docker-compose -f local.yml run --rm django coverage run -m pytest`
     - If any errors with missing tables, try to add `--no-migrations` 
 3. Generate coverage report: `docker-compose -f local.yml run --rm django coverage report`
-
+<s>
 ## Deleting database
 
 While doing development you might need to clera the database
@@ -60,7 +61,7 @@ While doing development you might need to clera the database
 3. Remove database volume `docker volume rm msdb_msdb_local_postgres_data`
 4. Build the project: `docker-compose -f local.yml build`
 5. Run the project: `docker-compose -f local.yml up`
-
+</s>
 ## Run python inside docker container
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. Run this command: `docker-compose -f local.yml run --rm django python manage.py shell`

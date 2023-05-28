@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from django.conf import settings
 import requests
-import json
+
+API_KEY = settings.OMDB_API_KEY
 
 @dataclass
 class MovieFromApi:
@@ -18,7 +20,7 @@ class MovieFromApi:
     imdb_rating: float
 
 def get_movie_from_api(movie_id: str) -> MovieFromApi|str:
-    url = "https://www.omdbapi.com/?apikey=371a659c&i=" + movie_id
+    url = f'https://www.omdbapi.com/?apikey={API_KEY}&i={movie_id}'
     response = requests.get(url)
     if response.status_code != 200:
         return "Error in API connection."
