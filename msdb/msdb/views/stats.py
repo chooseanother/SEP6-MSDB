@@ -30,7 +30,8 @@ def movie_stats(request, movie_id: str):
         days = dict()
         days_cumulative = dict()
         if any_reviews:
-            first_rating_date = movie.reviews.order_by('created_at').first().created_at.date()
+            #starting at one day before the first rating to start at 0
+            first_rating_date = movie.reviews.order_by('created_at').first().created_at.date() - datetime.timedelta(days=1)
             last_rating_date = movie.reviews.order_by('-created_at').first().created_at.date()
             count = (last_rating_date - first_rating_date).days + 1
             for i in range(count):
