@@ -30,6 +30,196 @@
 {% include 'collapsable_lists/movie_list_collapsable.html' with title='Watched' list1=watched1 list2=watched2 collapse_id='collapse_watched'%}
 {% endif %}
 
+{% if reviews1 %}
+  <h3 class="mt-5">Statistics</h3>
+  <p>Note: black bar indicated the position of the current user</p>
+  <div id="loading">
+    <div class="spinner-border m-5" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="container p-4">
+    <div class="row">
+      <h5 style="display: none;" id="sub_heading1">Top 10 watched actors and directors</h5>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="user_directors_count"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="user_actor_count"></canvas>
+      </div>
+      <h5 style="display: none;" id="sub_heading2">User's contributions compared to community</h5>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="all_user_ratings_count">
+        </canvas>
+      </div>
+      <h5 style="display: none;" id="sub_heading3">Most watched genres</h5>
+      <div class="col-sm-12">
+        <canvas id="user_genres_count"></canvas>
+      </div>
+    </div>
+  </div>
+{% endif %}
 
 
 {% endblock content %}
+
+
+{% block inline_javascript %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--charts-->
+<script>
+  function graph(chart_element, type, labels, label, data, textX, textY) {
+    new Chart(chart_element, {
+        type: type,
+        data: {
+          labels : labels,
+            datasets: [{
+              label: label,
+              data : data,
+              backgroundColor: 'rgb(254, 218, 107)',
+              borderColor: 'rgb(255, 193, 7)',
+              borderWidth: 1
+            }]
+        },
+        options: {
+          elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+  function graph_compare_to_others(chart_element, labels, label, data, textX, textY, highlight_position) {
+    new Chart(chart_element, {
+        data: {
+          labels : labels,
+          datasets: [
+          {
+            type: 'bar',
+            label: label,
+            data: data,
+            backgroundColor: color => {
+              let colors = color.index === highlight_position ? 'rgb(33, 37, 41)' : 'rgb(254, 218, 107)';
+              return colors;
+            } ,
+            borderColor: 'rgb(255, 193, 7)'
+          }]
+        },
+        options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+
+  $(document).ready(function (){
+    $("#loading").show();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'user_stats' user.id %}",
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function (response){
+        const user_ratings_count = "{{user.reviews.count}}";
+        if (user_ratings_count !== "0") {
+          all_user_ratings_count_list = response.all_user_ratings_count;
+          const all_user_ratings_count_labels = [];
+          const all_user_ratings_count_data = [];
+          let index = 0;
+          let user_rating_position = 0;
+          for (let ratings in all_user_ratings_count_list) {
+            all_user_ratings_count_labels.push(ratings);
+            all_user_ratings_count_data.push(all_user_ratings_count_list[ratings]);
+            if (ratings === user_ratings_count) {
+              user_rating_position = index;
+            }
+            index++;
+          }
+          const all_user_ratings_count = document.getElementById('all_user_ratings_count').getContext('2d');
+          graph_compare_to_others(all_user_ratings_count, all_user_ratings_count_labels, "All user's number of ratings", all_user_ratings_count_data, "Number of ratings", "Number of users", user_rating_position);
+          $("#sub_heading2").show();
+
+          user_genres_count_list = response.user_genres_count;
+          const user_genres_count_labels = [];
+          const user_genres_count_data = [];
+          for (let genre_count in user_genres_count_list) {
+            user_genres_count_labels.push(genre_count);
+            user_genres_count_data.push(user_genres_count_list[genre_count]);
+          }
+          const user_genres_count = document.getElementById('user_genres_count').getContext('2d');
+          graph(user_genres_count, 'bar', user_genres_count_labels, "Number of watched movies by genre", user_genres_count_data, "Genre", "Number of movies");
+          $("#sub_heading3").show();
+
+          user_directors_count_list = response.user_directors_count;
+          const user_directors_count_labels = [];
+          const user_directors_count_data = [];
+          for (let director_count in user_directors_count_list) {
+            user_directors_count_labels.push(director_count);
+            user_directors_count_data.push(user_directors_count_list[director_count]);
+          }
+          const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
+          graph(user_directors_count, 'bar', user_directors_count_labels, "Number of watched movies by director", user_directors_count_data, "Director", "Number of movies");
+
+          user_actor_count_list = response.user_actor_count;
+          const user_actor_count_labels = [];
+          const user_actor_count_data = [];
+          for (let actor_count in user_actor_count_list) {
+            user_actor_count_labels.push(actor_count);
+            user_actor_count_data.push(user_actor_count_list[actor_count]);
+          }
+          const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
+          graph(user_actor_count, 'bar', user_actor_count_labels, "Number of watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
+          $("#sub_heading1").show();
+        }
+      },
+      error: function (response) {
+      },
+      complete: function (response) {
+        $("#loading").hide();
+      }
+    })
+  });
+</script>
+{% endblock inline_javascript %}
