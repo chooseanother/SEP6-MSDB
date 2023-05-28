@@ -218,7 +218,7 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""Kim and Maggie""", "kim-and-maggie@example.com")]
+ADMINS = [("""Kim and Maggie""", "mail@kimdt.tech")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
@@ -275,3 +275,6 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# OMDB API Key
+OMDB_API_KEY = env("OMDB_API_KEY", default="")

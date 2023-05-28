@@ -279,3 +279,6 @@ msdb/media/
 .env
 .envs/*
 !.envs/.local/
+
+# GCP
+msdb-sep6-d95734a89f97.json

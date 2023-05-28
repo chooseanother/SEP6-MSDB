@@ -2,9 +2,6 @@
 
 Social platform for movies
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-
 License: MIT
 
 ## First time setup
@@ -12,9 +9,25 @@ License: MIT
 1. Install docker stuff
 3. clone the repository
 4. Navigate to the `SEP6-MSDB/msdb/` folder
+
+- pre-commit?
 4. Build the project: `docker-compose -f local.yml build`
 5. Run the project: `docker-compose -f local.yml up`
 6. Access project: http://0.0.0.0:8000
+
+
+## Deploy
+1. Install gcloud cli
+2. Login
+3. get credentials file from bucket
+4. get .envs from bucket
+5. ssh into vm instance
+6. git pull
+7. docker down
+8. docker build
+9. docker up
+
+
 
 ## Admin
 
