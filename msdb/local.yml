@@ -18,7 +18,6 @@ services:
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
-      - ./.envs/.secrets/.omdbapi
     ports:
       - '8000:8000'
     command: /start
