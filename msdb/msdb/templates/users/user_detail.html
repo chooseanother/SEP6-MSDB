@@ -41,11 +41,14 @@
   <div class="container p-4">
     <div class="row">
       <div class="col-sm-12 col-md-6">
-        <canvas id="all_user_ratings_count">
-        </canvas>
+        <canvas id="user_directors_count"></canvas>
       </div>
       <div class="col-sm-12 col-md-6">
-        <canvas id="user_directors_count"></canvas>
+        <canvas id="user_actor_count"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="all_user_ratings_count">
+        </canvas>
       </div>
       <div class="col-sm-12">
         <canvas id="user_genres_count"></canvas>
@@ -193,6 +196,16 @@
         }
         const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
         graph(user_directors_count, 'bar', user_directors_count_labels, "Top 10 watched movies by director", user_directors_count_data, "Director", "Number of movies");
+
+        user_actor_count_list = response.user_actor_count;
+        const user_actor_count_labels = [];
+        const user_actor_count_data = [];
+        for(let actor_count in user_actor_count_list) {
+          user_actor_count_labels.push(actor_count);
+          user_actor_count_data.push(user_actor_count_list[actor_count]);
+        }
+        const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
+        graph(user_actor_count, 'bar', user_actor_count_labels, "Top 10 watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
 
 
 

@@ -88,6 +88,16 @@ def user_stats(request, user_id: int):
         user_directors_count = dict(sorted(user_directors_count.items(), key=itemgetter(1), reverse=True)[:10])
         graph_data["user_directors_count"] = user_directors_count
 
+        user_actor_count = dict()
+        for movie in watched_movies:
+            for actor in movie.actors:
+                if actor in user_actor_count:
+                    user_actor_count[actor] = user_actor_count[actor]+1
+                else:
+                    user_actor_count[actor] = 1
+        #get top 10 actors sorted by number of movies
+        user_actor_count = dict(sorted(user_actor_count.items(), key=itemgetter(1), reverse=True)[:10])
+        graph_data["user_actor_count"] = user_actor_count
 
         return JsonResponse(graph_data, status=200)
 
