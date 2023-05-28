@@ -20,8 +20,10 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
+
 <div class="container p-4">
   <div class="row justify-content-center">
+    <h5 style="display: none;" id="sub_heading1">Most active years</h5>
     {% if movies_director1 %}
       <div class="col-sm-12 col-md-6">
         <canvas id="director_nmb_movies_years"></canvas>
@@ -30,6 +32,17 @@
     {% if movies_actor1 %}
       <div class="col-sm-12 col-md-6">
         <canvas id="actor_nmb_movies_years"></canvas>
+      </div>
+    {% endif %}
+      <h5 style="display: none;" id="sub_heading2">Most successful years</h5>
+    {% if movies_director1 %}
+      <div class="col-sm-12 col-md-6">
+        <canvas id="director_rating_movies_years"></canvas>
+      </div>
+    {% endif %}
+    {% if movies_actor1 %}
+      <div class="col-sm-12 col-md-6">
+        <canvas id="actor_rating_movies_years"></canvas>
       </div>
     {% endif %}
   </div>
@@ -136,7 +149,6 @@
       },
       success: function (response){
         director_nmb_movies_years_list = response.director_nmb_movies_years;
-        console.log(Object.keys(director_nmb_movies_years_list).length);
         if(Object.keys(director_nmb_movies_years_list).length !== 0){
           const director_nmb_movies_years_labels = [];
           const director_nmb_movies_years_data = [];
@@ -146,10 +158,23 @@
           }
           const director_nmb_movies_years = document.getElementById('director_nmb_movies_years').getContext('2d');
           graph(director_nmb_movies_years, 'bar', director_nmb_movies_years_labels, "Number of movies per year as director", director_nmb_movies_years_data, "Year", "Number of movies");
+
+          director_rating_movies_years_list = response.director_rating_movies_years;
+          if(Object.keys(director_rating_movies_years_list).length !== 0) {
+            const director_rating_movies_years_labels = [];
+            const director_rating_movies_years_data = [];
+            for (let year in director_rating_movies_years_list) {
+              director_rating_movies_years_labels.push(year);
+              director_rating_movies_years_data.push(director_rating_movies_years_list[year]['avg_rating__avg']);
+            }
+            const director_rating_movies_years = document.getElementById('director_rating_movies_years').getContext('2d');
+            graph(director_rating_movies_years, 'bar', director_rating_movies_years_labels, "Average movie rating per year as director", director_rating_movies_years_data, "Year", "Average movie rating");
+            $("#sub_heading2").show();
+          }
+          $("#sub_heading1").show();
         }
 
         actor_nmb_movies_years_list = response.actor_nmb_movies_years;
-        console.log(Object.keys(actor_nmb_movies_years_list).length);
         if(Object.keys(actor_nmb_movies_years_list).length !== 0) {
           const actor_nmb_movies_years_labels = [];
           const actor_nmb_movies_years_data = [];
@@ -159,6 +184,21 @@
           }
           const actor_nmb_movies_years = document.getElementById('actor_nmb_movies_years').getContext('2d');
           graph(actor_nmb_movies_years, 'bar', actor_nmb_movies_years_labels, "Number of movies per year as actor/actress", actor_nmb_movies_years_data, "Year", "Number of movies");
+
+          actor_rating_movies_years_list = response.actor_rating_movies_years;
+          if(Object.keys(actor_rating_movies_years_list).length !== 0) {
+            console.log(Object.keys(actor_rating_movies_years_list).length)
+            const actor_rating_movies_years_labels = [];
+            const actor_rating_movies_years_data = [];
+            for (let year in actor_rating_movies_years_list) {
+              actor_rating_movies_years_labels.push(year);
+              actor_rating_movies_years_data.push(actor_rating_movies_years_list[year]['avg_rating__avg']);
+            }
+            const actor_rating_movies_years = document.getElementById('actor_rating_movies_years').getContext('2d');
+            graph(actor_rating_movies_years, 'bar', actor_rating_movies_years_labels, "Average movie rating per year as actor", actor_rating_movies_years_data, "Year", "Average movie rating");
+            $("#sub_heading2").show();
+          }
+          $("#sub_heading1").show();
         }
       },
       error: function (response) {
