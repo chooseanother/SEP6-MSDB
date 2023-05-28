@@ -2,9 +2,11 @@ import datetime
 from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models import Func, Avg
+from django.db import connection
 
 from msdb.models import Movie
 from msdb.users.models import User
+from msdb.models import List
 
 def movie_stats(request, movie_id: str):
     if request.method == "GET":
@@ -53,6 +55,25 @@ def user_stats(request, user_id: int):
         for i in range(0, most_ratings+1):
             ratings_count[i] = all_users.annotate(reviews_count=Count('reviews')).filter(reviews_count=i).count()
         graph_data["all_user_ratings_count"] = ratings_count
+
+        cursor = connection.cursor()
+        raw_query = """select unnest(subquery_alias.genre) as distinct_genres, count(*) as genres_group_by_count
+            from (select genre from msdb_movie) as subquery_alias group by distinct_genres;"""
+        cursor.execute(raw_query)
+        genres_count = [{"genre": row[0], "count": row[1]} for row in cursor]
+        all_genres = []
+        for genre_count in genres_count:
+            all_genres.append(genre_count['genre'])
+
+        user_genres_count = dict()
+        for genre in all_genres:
+            user_genres_count[genre] = 0
+
+        watched_movies = user.lists.get(list_type=List.ListChoices.WATCHED).movies.all()
+        for movie in watched_movies:
+            for genre in movie.genre:
+                user_genres_count[genre] = user_genres_count[genre]+1
+        graph_data["user_genres_count"] = user_genres_count
 
         return JsonResponse(graph_data, status=200)
 

@@ -42,6 +42,9 @@
       <div class="col-sm-12 col-md-6">
         <canvas id="all_user_ratings_count"></canvas>
       </div>
+      <div class="col-sm-12">
+        <canvas id="user_genres_count"></canvas>
+      </div>
     </div>
   </div>
 {% endif %}
@@ -163,9 +166,18 @@
           }
           index++;
         }
-        console.log(user_rating_position)
         const all_user_ratings_count = document.getElementById('all_user_ratings_count').getContext('2d');
         graph_compare_to_others(all_user_ratings_count, all_user_ratings_count_labels, "All user's number of ratings", all_user_ratings_count_data, "Number of ratings", "Number of users", user_rating_position);
+
+        user_genres_count_list = response.user_genres_count;
+        const user_genres_count_labels = [];
+        const user_genres_count_data = [];
+        for(let genre_count in user_genres_count_list) {
+          user_genres_count_labels.push(genre_count);
+          user_genres_count_data.push(user_genres_count_list[genre_count]);
+        }
+        const user_genres_count = document.getElementById('user_genres_count').getContext('2d');
+        graph(user_genres_count, 'bar', user_genres_count_labels, "Number of watched movies by genre", user_genres_count_data, "Genre", "Number of movies");
       },
       error: function (response) {
 
