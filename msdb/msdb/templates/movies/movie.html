@@ -176,22 +176,19 @@
     });
   }
 
-  function graph_compare_to_others(chart_element, labels, label1, label2, data1, data2, textX, textY) {
+  function graph_compare_to_others(chart_element, labels, label, data, textX, textY, highlight_position) {
     new Chart(chart_element, {
         data: {
           labels : labels,
           datasets: [{
             type: 'bar',
-            label: label1,
-            data: data1,
-            backgroundColor: 'rgb(254, 218, 107)',
+            label: label,
+            data: data,
+            backgroundColor: color => {
+              let colors = color.index === highlight_position ? 'rgb(33, 37, 41)' : 'rgb(254, 218, 107)';
+              return colors;
+            } ,
             borderColor: 'rgb(255, 193, 7)'
-          },
-          {
-            type: 'line',
-            label: label2,
-            data: data2,
-            borderColor: 'rgb(54, 162, 235)'
           }]
         },
         options: {
@@ -245,20 +242,20 @@
         const all_movie_ratings_count_labels = [];
         const all_movie_ratings_count_data = [];
         const this_movie_ratings_data = [];
+        let index = 0;
+        let movie_rating_position = 0;
         const movie_rating = "{{ movie_datab.rating|floatformat }}";
         for(let rating in all_movie_ratings_count_list) {
           all_movie_ratings_count_labels.push(rating);
           all_movie_ratings_count_data.push(all_movie_ratings_count_list[rating]);
-          if(rating===  movie_rating){
-            this_movie_ratings_data.push(all_movie_ratings_count_list[rating]);
+          if(rating===  movie_rating) {
+            movie_rating_position = index;
           }
-          else{
-            this_movie_ratings_data.push(null);
-          }
+          index++;
         }
         const all_movie_ratings_count = document.getElementById('all_movie_ratings_count').getContext('2d');
         console.log(this_movie_ratings_data);
-        graph_compare_to_others(all_movie_ratings_count, all_movie_ratings_count_labels, "This movie ratings", "All movie rating", this_movie_ratings_data, all_movie_ratings_count_data, "Stars", "Number of ratings");
+        graph_compare_to_others(all_movie_ratings_count, all_movie_ratings_count_labels, "All movie rating", all_movie_ratings_count_data, "Stars", "Number of ratings", movie_rating_position);
 
         ratings_over_time_list = response.ratings_over_time;
         const ratings_over_time_labels = [];
