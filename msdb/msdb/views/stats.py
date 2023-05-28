@@ -103,3 +103,29 @@ def user_stats(request, user_id: int):
 
     return JsonResponse({}, status=400)
 
+def person_stats(request, person_name: str):
+    if request.method == "GET":
+        graph_data = dict()
+
+        director_nmb_movies_years = dict()
+        director_movies = Movie.objects.filter(director__icontains=person_name)
+        if director_movies:
+            first_year = int(director_movies.values('year').order_by('year').first()['year'])
+            last_year = int(director_movies.values('year').order_by('-year').first()['year'])
+            for year in range(first_year, last_year+1):
+                director_nmb_movies_years[year] = director_movies.filter(year=year).count()
+
+        graph_data["director_nmb_movies_years"] = director_nmb_movies_years
+
+        actor_nmb_movies_years = dict()
+        actor_movies = Movie.objects.filter(actors__icontains=person_name)
+        if actor_movies:
+            first_year = int(actor_movies.values('year').order_by('year').first()['year'])
+            last_year = int(actor_movies.values('year').order_by('-year').first()['year'])
+            for year in range(first_year, last_year+1):
+                actor_nmb_movies_years[year] = actor_movies.filter(year=year).count()
+        graph_data["actor_nmb_movies_years"] = actor_nmb_movies_years
+
+        return JsonResponse(graph_data, status=200)
+
+    return JsonResponse({}, status=400)

@@ -206,12 +206,8 @@
         }
         const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
         graph(user_actor_count, 'bar', user_actor_count_labels, "Top 10 watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
-
-
-
       },
       error: function (response) {
-
       },
       complete: function (response) {
         $("#loading").hide();

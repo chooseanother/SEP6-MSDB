@@ -13,4 +13,162 @@
   {% include 'collapsable_lists/movie_list_collapsable.html' with title='Known for as actor/actress' list1=movies_actor1 list2=movies_actor2 collapse_id='collapse_actor'%}
 {% endif %}
 
+<h3 class="mt-5">Statistics</h3>
+<p>Note: black bar indicated the position of the current person</p>
+<div id="loading">
+  <div class="spinner-border m-5" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="container p-4">
+  <div class="row justify-content-center">
+    {% if movies_director1 %}
+      <div class="col-sm-12 col-md-6">
+        <canvas id="director_nmb_movies_years"></canvas>
+      </div>
+    {% endif %}
+    {% if movies_actor1 %}
+      <div class="col-sm-12 col-md-6">
+        <canvas id="actor_nmb_movies_years"></canvas>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
 {% endblock content %}
+
+{% block inline_javascript %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--charts-->
+<script>
+  function graph(chart_element, type, labels, label, data, textX, textY) {
+    new Chart(chart_element, {
+        type: type,
+        data: {
+          labels : labels,
+            datasets: [{
+              label: label,
+              data : data,
+              backgroundColor: 'rgb(254, 218, 107)',
+              borderColor: 'rgb(255, 193, 7)',
+              borderWidth: 1
+            }]
+        },
+        options: {
+          elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+  function graph_compare_to_others(chart_element, labels, label, data, textX, textY, highlight_position) {
+    new Chart(chart_element, {
+        data: {
+          labels : labels,
+          datasets: [
+          {
+            type: 'bar',
+            label: label,
+            data: data,
+            backgroundColor: color => {
+              let colors = color.index === highlight_position ? 'rgb(33, 37, 41)' : 'rgb(254, 218, 107)';
+              return colors;
+            } ,
+            borderColor: 'rgb(255, 193, 7)'
+          }]
+        },
+        options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+               x: {
+                  title: {
+                    display: true,
+                    text: textX
+                  }
+               },
+               y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0
+                  },
+                  title: {
+                     display: true,
+                     text: textY
+                  }
+               }
+            }
+        }
+    });
+  }
+
+  $(document).ready(function (){
+    $("#loading").show();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'person_stats' person %}",
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function (response){
+        director_nmb_movies_years_list = response.director_nmb_movies_years;
+        console.log(Object.keys(director_nmb_movies_years_list).length);
+        if(Object.keys(director_nmb_movies_years_list).length !== 0){
+          const director_nmb_movies_years_labels = [];
+          const director_nmb_movies_years_data = [];
+          for(let year in director_nmb_movies_years_list) {
+            director_nmb_movies_years_labels.push(year);
+            director_nmb_movies_years_data.push(director_nmb_movies_years_list[year]);
+          }
+          const director_nmb_movies_years = document.getElementById('director_nmb_movies_years').getContext('2d');
+          graph(director_nmb_movies_years, 'bar', director_nmb_movies_years_labels, "Number of movies per year as director", director_nmb_movies_years_data, "Year", "Number of movies");
+        }
+
+        actor_nmb_movies_years_list = response.actor_nmb_movies_years;
+        console.log(Object.keys(actor_nmb_movies_years_list).length);
+        if(Object.keys(actor_nmb_movies_years_list).length !== 0) {
+          const actor_nmb_movies_years_labels = [];
+          const actor_nmb_movies_years_data = [];
+          for (let year in actor_nmb_movies_years_list) {
+            actor_nmb_movies_years_labels.push(year);
+            actor_nmb_movies_years_data.push(actor_nmb_movies_years_list[year]);
+          }
+          const actor_nmb_movies_years = document.getElementById('actor_nmb_movies_years').getContext('2d');
+          graph(actor_nmb_movies_years, 'bar', actor_nmb_movies_years_labels, "Number of movies per year as actor/actress", actor_nmb_movies_years_data, "Year", "Number of movies");
+        }
+      },
+      error: function (response) {
+
+      },
+      complete: function (response) {
+        $("#loading").hide();
+      }
+    })
+  });
+</script>
+{% endblock inline_javascript %}
+
