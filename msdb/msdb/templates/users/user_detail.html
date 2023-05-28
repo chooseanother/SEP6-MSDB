@@ -39,17 +39,20 @@
     </div>
   </div>
   <div class="container p-4">
-    <div class="row justify-content-center">
+    <div class="row">
+      <h5 style="display: none;" id="sub_heading1">Top 10 watched actors and directors</h5>
       <div class="col-sm-12 col-md-6">
         <canvas id="user_directors_count"></canvas>
       </div>
       <div class="col-sm-12 col-md-6">
         <canvas id="user_actor_count"></canvas>
       </div>
+      <h5 style="display: none;" id="sub_heading2">User's contributions compared to community</h5>
       <div class="col-sm-12 col-md-6">
         <canvas id="all_user_ratings_count">
         </canvas>
       </div>
+      <h5 style="display: none;" id="sub_heading3">Most watched genres</h5>
       <div class="col-sm-12">
         <canvas id="user_genres_count"></canvas>
       </div>
@@ -159,53 +162,57 @@
         csrfmiddlewaretoken: '{{ csrf_token }}'
       },
       success: function (response){
-        all_user_ratings_count_list = response.all_user_ratings_count;
-        const all_user_ratings_count_labels = [];
-        const all_user_ratings_count_data = [];
-        const this_user_ratings_count = [];
         const user_ratings_count = "{{user.reviews.count}}";
-        let index = 0;
-        let user_rating_position = 0;
-        for(let ratings in all_user_ratings_count_list) {
-          all_user_ratings_count_labels.push(ratings);
-          all_user_ratings_count_data.push(all_user_ratings_count_list[ratings]);
-          if(ratings===  user_ratings_count){
-            user_rating_position = index;
+        if (user_ratings_count !== "0") {
+          all_user_ratings_count_list = response.all_user_ratings_count;
+          const all_user_ratings_count_labels = [];
+          const all_user_ratings_count_data = [];
+          let index = 0;
+          let user_rating_position = 0;
+          for (let ratings in all_user_ratings_count_list) {
+            all_user_ratings_count_labels.push(ratings);
+            all_user_ratings_count_data.push(all_user_ratings_count_list[ratings]);
+            if (ratings === user_ratings_count) {
+              user_rating_position = index;
+            }
+            index++;
           }
-          index++;
-        }
-        const all_user_ratings_count = document.getElementById('all_user_ratings_count').getContext('2d');
-        graph_compare_to_others(all_user_ratings_count, all_user_ratings_count_labels, "All user's number of ratings", all_user_ratings_count_data, "Number of ratings", "Number of users", user_rating_position);
+          const all_user_ratings_count = document.getElementById('all_user_ratings_count').getContext('2d');
+          graph_compare_to_others(all_user_ratings_count, all_user_ratings_count_labels, "All user's number of ratings", all_user_ratings_count_data, "Number of ratings", "Number of users", user_rating_position);
+          $("#sub_heading2").show();
 
-        user_genres_count_list = response.user_genres_count;
-        const user_genres_count_labels = [];
-        const user_genres_count_data = [];
-        for(let genre_count in user_genres_count_list) {
-          user_genres_count_labels.push(genre_count);
-          user_genres_count_data.push(user_genres_count_list[genre_count]);
-        }
-        const user_genres_count = document.getElementById('user_genres_count').getContext('2d');
-        graph(user_genres_count, 'bar', user_genres_count_labels, "Number of watched movies by genre", user_genres_count_data, "Genre", "Number of movies");
+          user_genres_count_list = response.user_genres_count;
+          const user_genres_count_labels = [];
+          const user_genres_count_data = [];
+          for (let genre_count in user_genres_count_list) {
+            user_genres_count_labels.push(genre_count);
+            user_genres_count_data.push(user_genres_count_list[genre_count]);
+          }
+          const user_genres_count = document.getElementById('user_genres_count').getContext('2d');
+          graph(user_genres_count, 'bar', user_genres_count_labels, "Number of watched movies by genre", user_genres_count_data, "Genre", "Number of movies");
+          $("#sub_heading3").show();
 
-        user_directors_count_list = response.user_directors_count;
-        const user_directors_count_labels = [];
-        const user_directors_count_data = [];
-        for(let director_count in user_directors_count_list) {
-          user_directors_count_labels.push(director_count);
-          user_directors_count_data.push(user_directors_count_list[director_count]);
-        }
-        const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
-        graph(user_directors_count, 'bar', user_directors_count_labels, "Top 10 watched movies by director", user_directors_count_data, "Director", "Number of movies");
+          user_directors_count_list = response.user_directors_count;
+          const user_directors_count_labels = [];
+          const user_directors_count_data = [];
+          for (let director_count in user_directors_count_list) {
+            user_directors_count_labels.push(director_count);
+            user_directors_count_data.push(user_directors_count_list[director_count]);
+          }
+          const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
+          graph(user_directors_count, 'bar', user_directors_count_labels, "Number of watched movies by director", user_directors_count_data, "Director", "Number of movies");
 
-        user_actor_count_list = response.user_actor_count;
-        const user_actor_count_labels = [];
-        const user_actor_count_data = [];
-        for(let actor_count in user_actor_count_list) {
-          user_actor_count_labels.push(actor_count);
-          user_actor_count_data.push(user_actor_count_list[actor_count]);
+          user_actor_count_list = response.user_actor_count;
+          const user_actor_count_labels = [];
+          const user_actor_count_data = [];
+          for (let actor_count in user_actor_count_list) {
+            user_actor_count_labels.push(actor_count);
+            user_actor_count_data.push(user_actor_count_list[actor_count]);
+          }
+          const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
+          graph(user_actor_count, 'bar', user_actor_count_labels, "Number of watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
+          $("#sub_heading1").show();
         }
-        const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
-        graph(user_actor_count, 'bar', user_actor_count_labels, "Top 10 watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
       },
       error: function (response) {
       },
