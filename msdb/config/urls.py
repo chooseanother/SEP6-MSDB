@@ -12,7 +12,7 @@ from msdb.views.person import person
 from msdb.views.movie import add_review, edit_review
 from msdb.views.lists import toggle_list
 from msdb.views.review import review, user_review
-from msdb.views.stats import movie_stats
+from msdb.views.stats import movie_stats, user_stats
 
 urlpatterns = [
     path("", home, name="home"),
@@ -24,7 +24,8 @@ urlpatterns = [
     path("user_review/<str:review_id>", user_review, name="user_review"),
     path("add_review/<str:movie_id>", add_review, name="add_review"),
     path("edit_review/<str:movie_id>", edit_review, name="edit_review"),
-    path("stats/<str:movie_id>", movie_stats, name="movie_stats"),
+    path("stats/movie/<str:movie_id>", movie_stats, name="movie_stats"),
+    path("stats/user/<int:user_id>", user_stats, name="user_stats"),
 
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

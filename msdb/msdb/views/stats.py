@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.db.models import Func, Avg
 
 from msdb.models import Movie
+from msdb.users.models import User
 
 def movie_stats(request, movie_id: str):
     if request.method == "GET":
@@ -39,3 +40,21 @@ def movie_stats(request, movie_id: str):
         return JsonResponse(graph_data, status=200)
 
     return JsonResponse({}, status=400)
+
+
+def user_stats(request, user_id: int):
+    if request.method == "GET":
+        user = User.objects.get(id=user_id)
+
+        graph_data = dict()
+        ratings_count = dict()
+        most_ratings = User.objects.all().annotate(reviews_count=Count('reviews')).order_by('-reviews_count').first().reviews.count()
+        all_users = User.objects.all()
+        for i in range(0, most_ratings+1):
+            ratings_count[i] = all_users.annotate(reviews_count=Count('reviews')).filter(reviews_count=i).count()
+        graph_data["all_user_ratings_count"] = ratings_count
+
+        return JsonResponse(graph_data, status=200)
+
+    return JsonResponse({}, status=400)
+

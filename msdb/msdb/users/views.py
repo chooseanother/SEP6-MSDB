@@ -38,7 +38,6 @@ def user_detail_view(request, pk):
         watched1 = None
         watched2 = None
 
-
     context = dict(me=request.user, user=user,
                    reviews1=reviews1, reviews2=reviews2,
                    favorites1=favorites1, favorites2=favorites2,
