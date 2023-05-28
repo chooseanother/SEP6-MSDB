@@ -32,6 +32,7 @@
 
 {% if reviews1 %}
   <h3 class="mt-5">Statistics</h3>
+  <p>Note: black bar is the current user</p>
   <div id="loading">
     <div class="spinner-border m-5" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -40,7 +41,11 @@
   <div class="container p-4">
     <div class="row">
       <div class="col-sm-12 col-md-6">
-        <canvas id="all_user_ratings_count"></canvas>
+        <canvas id="all_user_ratings_count">
+        </canvas>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <canvas id="user_directors_count"></canvas>
       </div>
       <div class="col-sm-12">
         <canvas id="user_genres_count"></canvas>
@@ -178,6 +183,19 @@
         }
         const user_genres_count = document.getElementById('user_genres_count').getContext('2d');
         graph(user_genres_count, 'bar', user_genres_count_labels, "Number of watched movies by genre", user_genres_count_data, "Genre", "Number of movies");
+
+        user_directors_count_list = response.user_directors_count;
+        const user_directors_count_labels = [];
+        const user_directors_count_data = [];
+        for(let director_count in user_directors_count_list) {
+          user_directors_count_labels.push(director_count);
+          user_directors_count_data.push(user_directors_count_list[director_count]);
+        }
+        const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
+        graph(user_directors_count, 'bar', user_directors_count_labels, "Top 10 watched movies by director", user_directors_count_data, "Director", "Number of movies");
+
+
+
       },
       error: function (response) {
 

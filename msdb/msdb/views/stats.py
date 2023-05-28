@@ -2,7 +2,9 @@ import datetime
 from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models import Func, Avg
+import heapq
 from django.db import connection
+from operator import itemgetter
 
 from msdb.models import Movie
 from msdb.users.models import User
@@ -74,6 +76,18 @@ def user_stats(request, user_id: int):
             for genre in movie.genre:
                 user_genres_count[genre] = user_genres_count[genre]+1
         graph_data["user_genres_count"] = user_genres_count
+
+        user_directors_count = dict()
+        for movie in watched_movies:
+            for director in movie.director:
+                if director in user_directors_count:
+                    user_directors_count[director] = user_directors_count[director]+1
+                else:
+                    user_directors_count[director] = 1
+        #get top 10 directors sorted by number of movies
+        user_directors_count = dict(sorted(user_directors_count.items(), key=itemgetter(1), reverse=True)[:10])
+        graph_data["user_directors_count"] = user_directors_count
+
 
         return JsonResponse(graph_data, status=200)
 
