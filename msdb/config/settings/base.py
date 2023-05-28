@@ -37,19 +37,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
 LOCALE_PATHS = [str(BASE_DIR / "locale")]
 
-# Test Gcloud Secret Manager
-# ------------------------------------------------------------------------------
-# project_id = "msdb-sep6" #os.environ.get("GOOGLE_CLOUD_PROJECT")
-
-# client = secretmanager.SecretManagerServiceClient()
-# settings_name = "django_settings"#os.environ.get("SETTINGS_NAME", "django_settings")
-# name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
-# payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
-
-# print("=====================================")
-# print(io.StringIO(payload))
-# print("=====================================")
-
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
