@@ -248,15 +248,11 @@
           const this_movie_ratings_data = [];
           let index = 0;
           let movie_rating_position = 0;
-          console.log("test");
           const movie_rating = "{{ movie_datab.rating|floatformat:1 }}";
-          console.log(movie_rating);
           for (let rating in all_movie_ratings_count_list) {
             all_movie_ratings_count_labels.push(rating);
             all_movie_ratings_count_data.push(all_movie_ratings_count_list[rating]);
-            console.log(rating);
             if (rating === movie_rating) {
-              console.log(rating, movie_rating);
               movie_rating_position = index;
             }
             index++;
