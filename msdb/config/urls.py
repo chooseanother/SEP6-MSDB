@@ -6,10 +6,6 @@ from django.urls import include, path
 from django.views import defaults as default_views
 
 from msdb.views.home import home
-from msdb.views.movie import movie
-from msdb.views.search import search
-from msdb.views.person import person
-from msdb.views.movie import add_review, edit_review, delete_review
 from msdb.views.lists import toggle_list
 from msdb.views.movie import add_review, edit_review, movie
 from msdb.views.person import person

@@ -3,10 +3,9 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse
 
 from msdb.forms.review import ReviewForm
-from msdb.utils.movie_api import get_movie_from_api, MovieFromApi
-from msdb.models import Movie
-from msdb.models import List
-from msdb.models import Review
+from msdb.models import List, Movie, Review
+from msdb.utils.movie_api import get_movie_from_api
+
 
 
 def movie(request, movie_id):
