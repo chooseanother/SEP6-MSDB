@@ -9,7 +9,7 @@ from msdb.views.home import home
 from msdb.views.movie import movie
 from msdb.views.search import search
 from msdb.views.person import person
-from msdb.views.movie import add_review, edit_review
+from msdb.views.movie import add_review, edit_review, delete_review
 from msdb.views.lists import toggle_list
 from msdb.views.review import review, user_review
 from msdb.views.stats import movie_stats, user_stats, person_stats
@@ -24,6 +24,7 @@ urlpatterns = [
     path("user_review/<str:review_id>", user_review, name="user_review"),
     path("add_review/<str:movie_id>", add_review, name="add_review"),
     path("edit_review/<str:movie_id>", edit_review, name="edit_review"),
+    path("delete_review/<str:review_id>", delete_review, name="delete_review"),
     path("stats/movie/<str:movie_id>", movie_stats, name="movie_stats"),
     path("stats/user/<int:user_id>", user_stats, name="user_stats"),
     path("stats/person/<str:person_name>", person_stats, name="person_stats"),
