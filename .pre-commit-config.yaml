@@ -49,6 +49,11 @@ repos:
     rev: 6.0.0
     hooks:
       - id: flake8
+        # E203: whitespace before ':'
+        # E501: line too long
+        # P103: other imports should be on separate lines
+        # F401: imported but unused in __init__.py
+        args: ["-j8", "--ignore=E203,E501,P103", "--per-file-ignores=__init__.py:F401"]
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

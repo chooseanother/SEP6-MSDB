@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 
-from msdb.models import List
-from msdb.models import Movie
+from msdb.models import List, Movie
 from msdb.users.models import User
 
 
@@ -54,4 +53,3 @@ def toggle_list(request):
             return JsonResponse({"action": "add", "message": return_message}, status=200)
 
     return JsonResponse({}, status=400)
-

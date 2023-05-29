@@ -1,21 +1,15 @@
 import pytest
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest
 from django.test import RequestFactory
-from django.urls import reverse
 
 from msdb.users.forms import UserAdminChangeForm
 from msdb.users.models import User
 from msdb.users.tests.factories import UserFactory
-from msdb.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from msdb.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
@@ -92,6 +86,5 @@ class TestUserDetailView:
         request = rf.get("/fake-url/")
         request.user = AnonymousUser()
         response = user_detail_view(request, pk=user.pk)
-        login_url = reverse(settings.LOGIN_URL)
 
         assert response.status_code == 200

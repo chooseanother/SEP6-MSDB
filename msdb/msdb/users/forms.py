@@ -2,7 +2,7 @@ from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
-from django.forms import EmailField, CharField, TextInput, ValidationError
+from django.forms import CharField, EmailField, TextInput, ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from msdb.models.list import List
@@ -37,6 +37,7 @@ class UserSignupForm(SignupForm):
     Default fields will be added automatically.
     Check UserSocialSignupForm for accounts created from social.
     """
+
     name = CharField(
         max_length=255,
         label="Display name",
@@ -60,10 +61,10 @@ class UserSignupForm(SignupForm):
         """
         Saves the user to the database.
         """
-        user = super(UserSignupForm, self).save(request)
+        user = super().save(request)
         user.name = self.cleaned_data.get("name")
         user.save()
-        #create all three lists for that user
+        # create all three lists for that user
         List(user=user, list_type=List.ListChoices.FAVORITES).save()
         List(user=user, list_type=List.ListChoices.WATCHED).save()
         List(user=user, list_type=List.ListChoices.WATCHLIST).save()
@@ -75,7 +76,6 @@ class UserSignupForm(SignupForm):
             raise ValidationError(_("This name has already been taken."))
 
         return name
-
 
 
 class UserSocialSignupForm(SocialSignupForm):

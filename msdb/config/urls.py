@@ -4,15 +4,18 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+
 from msdb.views.home import home
 from msdb.views.movie import movie
 from msdb.views.search import search
 from msdb.views.person import person
 from msdb.views.movie import add_review, edit_review, delete_review
 from msdb.views.lists import toggle_list
+from msdb.views.movie import add_review, edit_review, movie
+from msdb.views.person import person
 from msdb.views.review import review, user_review
-from msdb.views.stats import movie_stats, user_stats, person_stats
+from msdb.views.search import search
+from msdb.views.stats import movie_stats, person_stats, user_stats
 
 urlpatterns = [
     path("", home, name="home"),
@@ -28,7 +31,6 @@ urlpatterns = [
     path("stats/movie/<str:movie_id>", movie_stats, name="movie_stats"),
     path("stats/user/<int:user_id>", user_stats, name="user_stats"),
     path("stats/person/<str:person_name>", person_stats, name="person_stats"),
-
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
