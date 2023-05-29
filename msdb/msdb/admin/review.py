@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from msdb.models import Review
 
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = [

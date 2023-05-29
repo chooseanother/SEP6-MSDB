@@ -17,4 +17,3 @@ class List(models.Model):
         default=ListChoices.FAVORITES,
     )
     movies = models.ManyToManyField(Movie)
-
