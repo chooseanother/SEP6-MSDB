@@ -60,6 +60,3 @@ INSTALLED_APPS += ["django_extensions"]  # noqa: F405
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-
-# OMDB API Key
-OMDB_API_KEY = env("OMDB_API_KEY", default="")
