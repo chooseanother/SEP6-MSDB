@@ -1,21 +1,21 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView, RedirectView, UpdateView
-from django.shortcuts import render
+from django.views.generic import RedirectView, UpdateView
 
 from msdb.models import List
 
 User = get_user_model()
 
-def user_detail_view(request, pk):
 
+def user_detail_view(request, pk):
     user = User.objects.get(id=pk)
 
-    reviews1 = user.reviews.all().order_by('-created_at')[:4]
-    reviews2 = user.reviews.all().order_by('-created_at')[4:]
+    reviews1 = user.reviews.all().order_by("-created_at")[:4]
+    reviews2 = user.reviews.all().order_by("-created_at")[4:]
 
     if List.objects.filter(user_id=user.id):
         favorites = user.lists.get(list_type=List.ListChoices.FAVORITES)
@@ -38,11 +38,18 @@ def user_detail_view(request, pk):
         watched1 = None
         watched2 = None
 
-    context = dict(me=request.user, user=user,
-                   reviews1=reviews1, reviews2=reviews2,
-                   favorites1=favorites1, favorites2=favorites2,
-                   watchlist1=watchlist1, watchlist2=watchlist2,
-                   watched1=watched1, watched2=watched2)
+    context = dict(
+        me=request.user,
+        user=user,
+        reviews1=reviews1,
+        reviews2=reviews2,
+        favorites1=favorites1,
+        favorites2=favorites2,
+        watchlist1=watchlist1,
+        watchlist2=watchlist2,
+        watched1=watched1,
+        watched2=watched2,
+    )
 
     return render(request, "users/user_detail.html", context)
 

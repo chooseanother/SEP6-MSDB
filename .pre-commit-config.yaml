@@ -16,12 +16,12 @@ repos:
       - id: check-docstring-first
       - id: detect-private-key
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.9-for-vscode
-    hooks:
-      - id: prettier
-        args: ['--tab-width', '2', '--single-quote']
-        exclude: 'msdb/msdb/templates/'
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v3.0.0-alpha.9-for-vscode
+  #   hooks:
+  #     - id: prettier
+  #       args: ['--tab-width', '2', '--single-quote']
+  #       exclude: 'msdb/msdb/templates/'
 
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.13.0"
@@ -49,6 +49,11 @@ repos:
     rev: 6.0.0
     hooks:
       - id: flake8
+        # E203: whitespace before ':'
+        # E501: line too long
+        # P103: other imports should be on separate lines
+        # F401: imported but unused in __init__.py
+        args: ["-j8", "--ignore=E203,E501,P103", "--per-file-ignores=__init__.py:F401"]
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

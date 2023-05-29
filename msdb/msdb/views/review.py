@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from msdb.models import Review
 
 
@@ -14,6 +15,7 @@ def review(request, review_id):
 
     # return render of review modal with context
     return render(request, "review/review_modal.html", context)
+
 
 def user_review(request, review_id):
     # change review id to integer

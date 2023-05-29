@@ -1,19 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+
 from msdb.forms.review import ReviewForm
-from msdb.utils.movie_api import get_movie_from_api, MovieFromApi
-from msdb.models import Movie
-from msdb.models import List
-from msdb.models import Review
+from msdb.models import List, Movie, Review
+from msdb.utils.movie_api import get_movie_from_api
+
 
 def movie(request, movie_id):
-    #if movie id does not exist in our database, throw 404
+    # if movie id does not exist in our database, throw 404
     try:
         movie_datab = Movie.objects.get(id=movie_id)
     except Movie.DoesNotExist:
         return render(request, "404.html", dict(movie_id=movie_id))
 
-    #if movie exists, try getting more information from api
-    #if api throws an exception, we just display what we have
+    # if movie exists, try getting more information from api
+    # if api throws an exception, we just display what we have
     movie_api = None
     try:
         movie_api = get_movie_from_api(movie_id)
@@ -41,8 +41,14 @@ def movie(request, movie_id):
         except Exception:
             review = None
 
-    context = dict(movie_api=movie_api, movie_datab=movie_datab, user=user,
-                is_favorites=is_favorites, is_watched=is_watched, is_watchlist=is_watchlist)
+    context = dict(
+        movie_api=movie_api,
+        movie_datab=movie_datab,
+        user=user,
+        is_favorites=is_favorites,
+        is_watched=is_watched,
+        is_watchlist=is_watchlist,
+    )
 
     # get all reviews for a movie and exclude the logged-in users review if it exists
     reviews = movie_datab.reviews.exclude(user=user) if request.user.is_authenticated else movie_datab.reviews.all()
@@ -57,7 +63,6 @@ def movie(request, movie_id):
     context["user"] = user
 
     return render(request, "movies/movie.html", context)
-
 
 
 def add_review(request, movie_id):
@@ -97,4 +102,3 @@ def edit_review(request, movie_id):
     else:
         form = ReviewForm(instance=review)
     return render(request, "review/add_edit_review.html", dict(form=form, movie=movie))
-
