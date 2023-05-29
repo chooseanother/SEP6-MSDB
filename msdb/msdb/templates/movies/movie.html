@@ -62,7 +62,7 @@
   </div>
 </div>
 
-<h3 class="mt-5">Ratings</h3>
+<h3 class="mt-5">Reviews</h3>
 <div class="container bg-dark text-white p-4">
   <div class="d-flex justify-content-between">
     <div>
@@ -72,7 +72,7 @@
             <i class="fa-solid text-warning fa-star"></i>
             {{ movie_datab.rating|floatformat }}
           </span>
-          Based on {{ movie_datab.review_count }} rating{% if movie_datab.review_count > 1 %}s{%endif%}
+          Based on {{ movie_datab.review_count }} review{% if movie_datab.review_count > 1 %}s{%endif%}
           {% else %}Not yet rated by MSDB users{% endif %}
       </p>
     </div>
