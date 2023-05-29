@@ -20,6 +20,7 @@
 .badge {
   white-space: normal !important;
   text-align: start;
+  margin: 3px;
 }
 
 /*MOVIE LIST (UNDERLINE TITLE, BLUR IMAGE)*/
