@@ -65,7 +65,7 @@ def user_stats(request, user_id: int):
 
         graph_data = dict()
         ratings_count = dict()
-        most_ratings = User.objects.all().annotate(reviews_count=Count('reviews')).order_by('-reviews_count').first().reviews.count()
+        most_ratings = User.objects.exclude(is_staff=True).all().annotate(reviews_count=Count('reviews')).order_by('-reviews_count').first().reviews.count()
         all_users = User.objects.exclude(is_staff=True).all()
         for i in range(0, most_ratings+1):
             ratings_count[i] = all_users.annotate(reviews_count=Count('reviews')).filter(reviews_count=i).count()
@@ -92,6 +92,8 @@ def user_stats(request, user_id: int):
 
         user_directors_count = dict()
         for movie in watched_movies:
+            if movie.director is None:
+                continue
             for director in movie.director:
                 if director in user_directors_count:
                     user_directors_count[director] = user_directors_count[director]+1
@@ -103,6 +105,8 @@ def user_stats(request, user_id: int):
 
         user_actor_count = dict()
         for movie in watched_movies:
+            if movie.actors is None:
+                continue
             for actor in movie.actors:
                 if actor in user_actor_count:
                     user_actor_count[actor] = user_actor_count[actor]+1
