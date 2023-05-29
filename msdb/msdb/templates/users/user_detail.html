@@ -193,24 +193,27 @@
           $("#sub_heading3").show();
 
           user_directors_count_list = response.user_directors_count;
-          const user_directors_count_labels = [];
-          const user_directors_count_data = [];
-          for (let director_count in user_directors_count_list) {
-            user_directors_count_labels.push(director_count);
-            user_directors_count_data.push(user_directors_count_list[director_count]);
+          if (Object.keys(user_directors_count_list).length !== 0) {
+            const user_directors_count_labels = [];
+            const user_directors_count_data = [];
+            for (let director_count in user_directors_count_list) {
+              user_directors_count_labels.push(director_count);
+              user_directors_count_data.push(user_directors_count_list[director_count]);
+            }
+            const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
+            graph(user_directors_count, 'bar', user_directors_count_labels, "Number of watched movies by director", user_directors_count_data, "Director", "Number of movies");
           }
-          const user_directors_count = document.getElementById('user_directors_count').getContext('2d');
-          graph(user_directors_count, 'bar', user_directors_count_labels, "Number of watched movies by director", user_directors_count_data, "Director", "Number of movies");
-
           user_actor_count_list = response.user_actor_count;
-          const user_actor_count_labels = [];
-          const user_actor_count_data = [];
-          for (let actor_count in user_actor_count_list) {
-            user_actor_count_labels.push(actor_count);
-            user_actor_count_data.push(user_actor_count_list[actor_count]);
+          if (Object.keys(user_actor_count_list).length !== 0) {
+            const user_actor_count_labels = [];
+            const user_actor_count_data = [];
+            for (let actor_count in user_actor_count_list) {
+              user_actor_count_labels.push(actor_count);
+              user_actor_count_data.push(user_actor_count_list[actor_count]);
+            }
+            const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
+            graph(user_actor_count, 'bar', user_actor_count_labels, "Number of watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
           }
-          const user_actor_count = document.getElementById('user_actor_count').getContext('2d');
-          graph(user_actor_count, 'bar', user_actor_count_labels, "Number of watched movies by actor/actress", user_actor_count_data, "Actor/Actress", "Number of movies");
           $("#sub_heading1").show();
         }
       },
