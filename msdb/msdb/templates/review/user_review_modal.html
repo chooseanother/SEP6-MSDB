@@ -12,7 +12,7 @@
           <p style="margin-bottom: 0;">Review by {{ review.user.name }}</p>
           <p style="margin-bottom: 0;">{% include 'review/rating.html' with rating=review.rating%}</p>
           <p style="margin-bottom: 0;">Created: {{ review.created_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.created_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
-          {% if review.updated_at %}
+          {% if review.updated_at|date > review.created_at|date %}
             <p style="margin-bottom: 0;">Updated: {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"F d, Y" }} {{ review.updated_at|timezone:"Europe/Copenhagen"|date:"g:i A" }}</p>
           {% endif %}
         </div>
