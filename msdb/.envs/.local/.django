@@ -5,4 +5,4 @@ IPYTHONDIR=/app/.ipython
 
 # OMDB API Key
 # ------------------------------------------------------------------------------
-OMDB_API_KEY=2be37a16
+OMDB_API_KEY=e6f34a57
