@@ -66,7 +66,7 @@ def user_stats(request, user_id: int):
         graph_data = dict()
         ratings_count = dict()
         most_ratings = User.objects.all().annotate(reviews_count=Count('reviews')).order_by('-reviews_count').first().reviews.count()
-        all_users = User.objects.all()
+        all_users = User.objects.exclude(is_staff=True).all()
         for i in range(0, most_ratings+1):
             ratings_count[i] = all_users.annotate(reviews_count=Count('reviews')).filter(reviews_count=i).count()
         graph_data["all_user_ratings_count"] = ratings_count

@@ -39,7 +39,7 @@ def search_movie(queries : list):
 
 
 def search_users(queries: list):
-    users = User.objects.filter(reduce(operator.and_, (Q(name__icontains=x) for x in queries)))\
+    users = User.objects.filter(is_staff=False).filter(reduce(operator.and_, (Q(name__icontains=x) for x in queries)))\
                 .annotate(num_reviews=Count('reviews')).order_by(F('num_reviews').desc(nulls_last=True))[:10]
     # if no users are found, do the search with or operator instead
     if users.count() == 0:
