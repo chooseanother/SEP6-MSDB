@@ -19,9 +19,9 @@ services:
   cloudsql-proxy:
       container_name: cloudsql-proxy
       image: gcr.io/cloudsql-docker/gce-proxy:latest
-      command: /cloud_sql_proxy -instances=msdb-sep6:europe-west3:msdb-db=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/credentials.json 
+      command: /cloud_sql_proxy -instances=msdb-sep6:europe-west3:msdb-db=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/credentials.json
       ports:
         - 5432:5432
       volumes:
-        - ./msdb-sep6-d95734a89f97.json:/secrets/cloudsql/credentials.json
+        - ./msdb-sep6-1337-e2aaf31460ac.json:/secrets/cloudsql/credentials.json
       restart: always
