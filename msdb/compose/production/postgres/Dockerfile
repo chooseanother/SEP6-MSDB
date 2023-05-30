@@ -1,4 +1,4 @@
-FROM postgres:14
+FROM postgres:15
 
 COPY ./compose/production/postgres/maintenance /usr/local/bin/maintenance
 # Extracts the compressed file and copies it to the initdb directory
