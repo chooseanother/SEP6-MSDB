@@ -20,7 +20,7 @@
     </div>
 
     <!-- if review list is bigger than 4 show button -->
-    {% if reviews|length > 4 %}
+    {% if reviews|length > loop1 %}
       <div style="text-align: center;">
         <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collapse" type="button" aria-expanded="false" aria-controls="{{ collapse_id }}">
           Expand/collapse
