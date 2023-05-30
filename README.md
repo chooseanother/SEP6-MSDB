@@ -1,12 +1,12 @@
 # Movies and Social DB
 
-Social platform for movies
+Social platform for movies, build with Django.
 
 License: MIT
 
 ## Table of Contents
 1. [First time setup](#first-time-setup)
-2. [Deploy](#deploy)
+2. [Deployment](#deployment)
 3. [Admin](#admin)
 4. [Python Packages](#python-packages)
 5. [Migrations](#migrations)
@@ -33,16 +33,17 @@ License: MIT
 9. Access project: http://0.0.0.0:8000
 
 
-## Deploy [^](#table-of-contents)
-1. Install gcloud cli
-2. Login
-3. get credentials file from bucket
-4. get .envs from bucket
-5. ssh into vm instance
-6. git pull
-7. docker down
-8. docker build
-9. docker up
+## Deployment [^](#table-of-contents)
+1. Install gcloud cli [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
+2. Login to gcloud cli: `glcoud auth login`
+3. Config project with gcloud cli: `gcloud config set project msdb-sep6-1337`
+    - To get a list of projects `gcloud projects list`
+6. SSH into vm instance with glcoud cli: `gcloud compute ssh msdb-web –zone=europe-west3-c`
+7. Navigate to project folder: `cd SEP6-MSDB/msdb/`
+8. Git pull to get the latest changes: `git pull`
+8. Stop the containers: `docker compose -f production.yml down`
+9. Build images: `docker compose -f production.yml build`
+10. Run the containers in detached mode: `docker compose -f production.yml up -d`
 
 
 
@@ -63,7 +64,7 @@ If new 3rd party python packages needs to be added
 5. Run the project: `docker compose -f local.yml up`
 
 ## Migrations [^](#table-of-contents)
-If there are made changes to django models, it is important to create migrations and add them to VC
+If there are made changes to django models, it is important to create migrations and add them to VCS
 1. Navigate to the `SEP6-MSDB/msdb/` folder
 2. First make migrations: `docker compose -f local.yml run --rm django python manage.py makemigrations`
 3. Update the role of migration files. This is done so that they can be added to the git repository: `sudo chown -R $USER:$USER "path"/SEP6-MSDB/`
