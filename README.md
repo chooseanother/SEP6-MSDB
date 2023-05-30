@@ -6,7 +6,7 @@ License: MIT
 
 ## Table of Contents
 1. [First time setup](#first-time-setup)
-2. [Deployment](#deployment)
+2. [Deploy updates](#deploy-updates)
 3. [Admin](#admin)
 4. [Python Packages](#python-packages)
 5. [Migrations](#migrations)
@@ -19,7 +19,6 @@ License: MIT
 ---
 
 ## First time setup [^](#table-of-contents)
-
 1. Install Docker, follow this guide: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 2. Install Git
 3. Install pre-commit: `pip install pre-commit`
@@ -33,12 +32,12 @@ License: MIT
 9. Access project: http://0.0.0.0:8000
 
 
-## Deployment [^](#table-of-contents)
+## Deploy updates [^](#table-of-contents)
 1. Install gcloud cli [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
 2. Login to gcloud cli: `glcoud auth login`
 3. Config project with gcloud cli: `gcloud config set project msdb-sep6-1337`
     - To get a list of projects `gcloud projects list`
-6. SSH into vm instance with glcoud cli: `gcloud compute ssh msdb-web –zone=europe-west3-c`
+6. SSH into VM instance with glcoud cli: `gcloud compute ssh msdb-web –zone=europe-west3-c`
 7. Navigate to project folder: `cd SEP6-MSDB/msdb/`
 8. Git pull to get the latest changes: `git pull`
 8. Stop the containers: `docker compose -f production.yml down`
