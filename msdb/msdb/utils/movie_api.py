@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from django.conf import settings
+
 import requests
+from django.conf import settings
 
 API_KEY = settings.OMDB_API_KEY
+
 
 @dataclass
 class MovieFromApi:
@@ -19,8 +21,9 @@ class MovieFromApi:
     poster_link: str
     imdb_rating: float
 
-def get_movie_from_api(movie_id: str) -> MovieFromApi|str:
-    url = f'https://www.omdbapi.com/?apikey={API_KEY}&i={movie_id}'
+
+def get_movie_from_api(movie_id: str) -> MovieFromApi | str:
+    url = f"https://www.omdbapi.com/?apikey={API_KEY}&i={movie_id}"
     response = requests.get(url)
     if response.status_code != 200:
         return "Error in API connection."
@@ -29,19 +32,20 @@ def get_movie_from_api(movie_id: str) -> MovieFromApi|str:
     else:
         return movie_json_mapper(response.json())
 
-def movie_json_mapper(json:dict) -> MovieFromApi:
+
+def movie_json_mapper(json: dict) -> MovieFromApi:
     movie_from_api = MovieFromApi(
         id=json["imdbID"],
         title=json["Title"],
         released=json["Released"],
         runtime=json["Runtime"],
-        genre=[x.strip() for x in json["Genre"].split(',')],
-        director=[x.strip() for x in json["Director"].split(',')],
-        actors=[x.strip() for x in json["Actors"].split(',')],
+        genre=[x.strip() for x in json["Genre"].split(",")],
+        director=[x.strip() for x in json["Director"].split(",")],
+        actors=[x.strip() for x in json["Actors"].split(",")],
         year=json["Year"],
         rated=json["Rated"],
         plot=json["Plot"],
         poster_link=json["Poster"],
-        imdb_rating=json["imdbRating"]
+        imdb_rating=json["imdbRating"],
     )
     return movie_from_api

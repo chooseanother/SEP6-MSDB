@@ -8,7 +8,7 @@
         <!-- Check if review is displayed on users page -->
         <!-- if yes then dislay movie title -->
         <!--<h5 class="card-title">{{review.movie.title}}</h5>-->
-        
+
         <h5 class="card-title d-flex justify-content-between">
           {% include 'review/rating.html' with rating=review.rating%}
           {% if color %}
