@@ -7,7 +7,7 @@ from django.views import defaults as default_views
 
 from msdb.views.home import home
 from msdb.views.lists import toggle_list
-from msdb.views.movie import add_review, edit_review, movie
+from msdb.views.movie import add_review, delete_review, edit_review, movie
 from msdb.views.person import person
 from msdb.views.review import review, user_review
 from msdb.views.search import search

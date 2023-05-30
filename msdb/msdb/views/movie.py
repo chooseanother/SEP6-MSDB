@@ -1,11 +1,9 @@
-from django.shortcuts import redirect, render
-
 from django.http import JsonResponse
+from django.shortcuts import redirect, render
 
 from msdb.forms.review import ReviewForm
 from msdb.models import List, Movie, Review
 from msdb.utils.movie_api import get_movie_from_api
-
 
 
 def movie(request, movie_id):
@@ -83,9 +81,9 @@ def add_review(request, movie_id):
             if request.user.is_authenticated:
                 watched_list = request.user.lists.get(list_type=List.ListChoices.WATCHED)
                 watched_list.movies.add(movie)
-            
+
             # get the origin request url and redirect back to that
-            origin = request.META.get("HTTP_REFERER")
+            origin = request.headers.get("referer")
             if origin:
                 return redirect(origin)
             return redirect("movie", movie_id=movie_id)
@@ -106,9 +104,9 @@ def edit_review(request, movie_id):
             review.text = text
             review.save()
             # get the origin request url and redirect back to that
-            origin = request.META.get("HTTP_REFERER")
+            origin = request.headers.get("referer")
             if origin:
-                return redirect(origin)    
+                return redirect(origin)
             return redirect("movie", movie_id=movie_id)
     else:
         form = ReviewForm(instance=review)
@@ -123,11 +121,10 @@ def delete_review(request, review_id):
         review.delete()
     except Review.DoesNotExist:
         return JsonResponse({}, status=404)
-    movie_id = review.movie.id
 
     # get origin url and redirect back to that
-    origin = request.META.get("HTTP_REFERER")
-    response = dict()
+    origin = request.headers.get("referer")
+    response = {}
     if origin:
-        response["origin"]=origin
+        response["origin"] = origin
     return JsonResponse(response, status=200)
