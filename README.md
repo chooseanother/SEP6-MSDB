@@ -27,9 +27,11 @@ License: MIT
     - HTTPS: `git clone https://github.com/chooseanother/SEP6-MSDB.git`
 5. Navigate to the project folder: `cd SEP6-MSDB/`
 6. Execute this command: `pre-commit install`
-7. Build the project: `docker compose -f local.yml build`
-8. Run the project: `docker compose -f local.yml up`
-9. Access project: http://0.0.0.0:8000
+7. Navigate to to the msdb subfolder: `cd msdb/`
+8. Build the project: `docker compose -f local.yml build`
+9. Apply migrations: `docker compose -f local.yml run --rm django python manage.py migrate`
+10. Run the project: `docker compose -f local.yml up`
+11. Access project: http://0.0.0.0:8000
 
 
 ## Deploy updates [^](#table-of-contents)
